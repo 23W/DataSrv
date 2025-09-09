@@ -1,0 +1,76 @@
+// DataSrv.idl : IDL source for DataSrv
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DataSrv.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(1623b515-ff0c-4473-b388-3e96e6bfade0),
+	dual,
+	nonextensible,
+	oleautomation,
+	pointer_default(unique)
+]
+interface IDataProvider : IDispatch
+{
+};
+
+[
+	object,
+	uuid(d341f25a-a80d-48d3-b07a-f1f9d5bca634),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface ICPUTempData : IDispatch
+{
+};
+[
+	uuid(91a7732c-78ba-49c0-a70b-72775c343a6f),
+	version(1.0),
+]
+library DataSrvLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(16cc38a3-da74-4c92-a05a-fb483f03a8d9)
+	]
+	dispinterface _IDataProviderEvents
+	{
+		properties:
+		methods:
+
+	};
+
+	[
+		uuid(50539d6d-636e-4f22-b1de-c01dadcaa86f)
+	]
+	coclass DataProvider
+	{
+		[default] interface IDataProvider;
+		[default, source] dispinterface _IDataProviderEvents;
+	};
+	[
+		uuid(35ef5d4d-2bc2-40a6-9ba6-34d0fc521bb8)
+	]
+	dispinterface _ICPUTempDataEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(f44a631e-725d-4d6d-8e87-c181be87b694)
+	]
+	coclass CPUTempData
+	{
+		[default] interface ICPUTempData;
+		[default, source] dispinterface _ICPUTempDataEvents;
+	};
+};
+
+import "shobjidl.idl";
+import "shobjidl.idl";

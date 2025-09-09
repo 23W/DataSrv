@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{c2470b38-4e2d-4b41-8132-4d6c803ae719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="COM">
+      <UniqueIdentifier>{527b9768-660d-449e-8ed2-655d4c84f92b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="COM\Generated Files">
+      <UniqueIdentifier>{3b8c57d5-47b9-495a-a1c8-25abb4162732}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\DataSrv_i.h">
+      <Filter>COM\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSrv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\StringUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Event.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\DataProvider.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\_IDataProviderEvents_CP.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\ComUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\_ICPUTempDataEvents_CP.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\CPUTempData.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataSrv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="COM\DataSrv_i.c">
+      <Filter>COM\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="COM\DataProvider.cpp">
+      <Filter>COM</Filter>
+    </ClCompile>
+    <ClCompile Include="COM\CPUTempData.cpp">
+      <Filter>COM</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DataSrv.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataSrv.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="COM\DataProvider.rgs">
+      <Filter>COM</Filter>
+    </None>
+    <None Include="COM\CPUTempData.rgs">
+      <Filter>COM</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="COM\DataSrv.idl">
+      <Filter>COM</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

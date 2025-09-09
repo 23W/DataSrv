@@ -1,0 +1,18 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {50539d6d-636e-4f22-b1de-c01dadcaa86f} = s 'DataProvider class'
+		{
+			val AppID = s '%APPID%'
+			val ThreadingModel = s 'Both'
+			ForceRemove Programmable
+			LocalServer32 = s '%MODULE%'
+			{
+				val ServerExecutable = s '%MODULE_RAW%'
+			}
+			TypeLib = s '{91a7732c-78ba-49c0-a70b-72775c343a6f}'
+			Version = s '1.0'
+		}
+	}
+}
