@@ -3,8 +3,7 @@
 #pragma once
 #include "../resource.h"       // main symbols
 
-
-
+#include "../Data Providers/CPUTempProvider.h"
 #include "DataSrv_i.h"
 #include "_ICPUTempDataEvents_CP.h"
 
@@ -17,54 +16,57 @@
 using namespace ATL;
 
 
-// CCPUTempData
-
 class ATL_NO_VTABLE CCPUTempData :
-	public CComObjectRootEx<CComMultiThreadModel>,
-	public CComCoClass<CCPUTempData, &CLSID_CPUTempData>,
-	public ISupportErrorInfo,
-	public IConnectionPointContainerImpl<CCPUTempData>,
-	public CProxy_ICPUTempDataEvents<CCPUTempData>,
-	public IDispatchImpl<ICPUTempData, &IID_ICPUTempData, &LIBID_DataSrvLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
+    public CComObjectRootEx<CComMultiThreadModel>,
+    public CComCoClass<CCPUTempData, &CLSID_CPUTempData>,
+    public ISupportErrorInfo,
+    public IConnectionPointContainerImpl<CCPUTempData>,
+    public CProxy_ICPUTempDataEvents<CCPUTempData>,
+    public IDispatchImpl<ICPUTempData, &IID_ICPUTempData, &LIBID_DataSrvLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-	CCPUTempData()
-	{
-	}
+    using TDataProvider = CCPUTempProvider;
+    using TEventId = TDataProvider::TSampleEvent::TId;
 
-DECLARE_REGISTRY_RESOURCEID(IDR_CPUTEMPDATA)
+    // Construction
 
-DECLARE_NOT_AGGREGATABLE(CCPUTempData)
+    CCPUTempData();
 
-BEGIN_COM_MAP(CCPUTempData)
-	COM_INTERFACE_ENTRY(ICPUTempData)
-	COM_INTERFACE_ENTRY(IDispatch)
-	COM_INTERFACE_ENTRY(ISupportErrorInfo)
-	COM_INTERFACE_ENTRY(IConnectionPointContainer)
-END_COM_MAP()
+    HRESULT FinalConstruct();
+    void FinalRelease();
 
-BEGIN_CONNECTION_POINT_MAP(CCPUTempData)
-	CONNECTION_POINT_ENTRY(__uuidof(_ICPUTempDataEvents))
-END_CONNECTION_POINT_MAP()
-// ISupportsErrorInfo
-	STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
+    DECLARE_REGISTRY_RESOURCEID(IDR_CPUTEMPDATA)
+    DECLARE_NOT_AGGREGATABLE(CCPUTempData)
+    DECLARE_PROTECT_FINAL_CONSTRUCT()
 
+    BEGIN_COM_MAP(CCPUTempData)
+        COM_INTERFACE_ENTRY(ICPUTempData)
+        COM_INTERFACE_ENTRY(IDispatch)
+        COM_INTERFACE_ENTRY(ISupportErrorInfo)
+        COM_INTERFACE_ENTRY(IConnectionPointContainer)
+    END_COM_MAP()
 
-	DECLARE_PROTECT_FINAL_CONSTRUCT()
+    BEGIN_CONNECTION_POINT_MAP(CCPUTempData)
+        CONNECTION_POINT_ENTRY(__uuidof(_ICPUTempDataEvents))
+    END_CONNECTION_POINT_MAP()
 
-	HRESULT FinalConstruct()
-	{
-		return S_OK;
-	}
+    // Methods
 
-	void FinalRelease()
-	{
-	}
+    STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
 
-public:
+private:
 
+    // Helper Methods
 
+    static TDataProvider& GetProvider();
 
+    void SubscribeDataEvent();
+    void UnsubscribeDataEvent();
+    void OnNextSample(float sample);
+
+    // Members
+
+    TEventId m_eventId;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(CPUTempData), CCPUTempData)

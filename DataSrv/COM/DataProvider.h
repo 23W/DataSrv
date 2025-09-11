@@ -41,6 +41,8 @@ public:
     // ISupportsErrorInfo
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
 
+    STDMETHOD(get_CpuTemp)(ICPUTempData** ppData);
+
 
     DECLARE_PROTECT_FINAL_CONSTRUCT()
 

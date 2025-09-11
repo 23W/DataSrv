@@ -1,6 +1,3 @@
-// DataSrv.cpp : Implementation of WinMain
-
-
 #include "pch.h"
 #include "DataSrv.h"
 #include "Utilities/StringUtilities.h"
@@ -18,8 +15,8 @@ HRESULT CDataSrvModule::InitializeSecurity() noexcept
                                          -1,
                                          nullptr,
                                          nullptr,
-                                         RPC_C_AUTHN_LEVEL_PKT,
-                                         RPC_C_IMP_LEVEL_IDENTIFY,
+                                         RPC_C_AUTHN_LEVEL_DEFAULT, //RPC_C_AUTHN_LEVEL_PKT,
+                                         RPC_C_IMP_LEVEL_IMPERSONATE, //RPC_C_IMP_LEVEL_IDENTIFY,
                                          nullptr,
                                          EOAC_NONE,
                                          nullptr);

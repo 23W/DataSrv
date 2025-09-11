@@ -114,6 +114,16 @@ extern "C"{
 #endif 
 
 
+/* interface __MIDL_itf_DataSrv_0000_0000 */
+/* [local] */ 
+
+
+
+
+
+extern RPC_IF_HANDLE __MIDL_itf_DataSrv_0000_0000_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_DataSrv_0000_0000_v0_0_s_ifspec;
+
 #ifndef __IDataProvider_INTERFACE_DEFINED__
 #define __IDataProvider_INTERFACE_DEFINED__
 
@@ -129,6 +139,9 @@ EXTERN_C const IID IID_IDataProvider;
     IDataProvider : public IDispatch
     {
     public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_CpuTemp( 
+            /* [retval][out] */ ICPUTempData **ppProvider) = 0;
+        
     };
     
     
@@ -194,6 +207,11 @@ EXTERN_C const IID IID_IDataProvider;
             /* [annotation][out] */ 
             _Out_opt_  UINT *puArgErr);
         
+        DECLSPEC_XFGVIRT(IDataProvider, get_CpuTemp)
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CpuTemp )( 
+            IDataProvider * This,
+            /* [retval][out] */ ICPUTempData **ppProvider);
+        
         END_INTERFACE
     } IDataProviderVtbl;
 
@@ -230,6 +248,9 @@ EXTERN_C const IID IID_IDataProvider;
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
 
+#define IDataProvider_get_CpuTemp(This,ppProvider)	\
+    ( (This)->lpVtbl -> get_CpuTemp(This,ppProvider) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -245,7 +266,7 @@ EXTERN_C const IID IID_IDataProvider;
 #define __ICPUTempData_INTERFACE_DEFINED__
 
 /* interface ICPUTempData */
-/* [unique][nonextensible][dual][uuid][object] */ 
+/* [unique][oleautomation][nonextensible][dual][uuid][object] */ 
 
 
 EXTERN_C const IID IID_ICPUTempData;

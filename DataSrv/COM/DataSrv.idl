@@ -7,69 +7,86 @@
 import "oaidl.idl";
 import "ocidl.idl";
 
+// ID values declarations
+// 0..99 - event ids
+// 100...1000 - property ids
+// 1000... - method ids
+
+// Forward declaration
+interface IDataProvider;
+interface ICPUTempData;
+
 [
-	object,
-	uuid(1623b515-ff0c-4473-b388-3e96e6bfade0),
-	dual,
-	nonextensible,
-	oleautomation,
-	pointer_default(unique)
+    object,
+    uuid(1623b515-ff0c-4473-b388-3e96e6bfade0),
+    dual,
+    nonextensible,
+    oleautomation,
+    pointer_default(unique)
 ]
 interface IDataProvider : IDispatch
 {
+    [propget, id(100), helpstring("Get CPU Temp provides")]
+    HRESULT CpuTemp([out, retval]ICPUTempData** ppProvider);
 };
 
 [
-	object,
-	uuid(d341f25a-a80d-48d3-b07a-f1f9d5bca634),
-	dual,
-	nonextensible,
-	pointer_default(unique)
+    object,
+    uuid(d341f25a-a80d-48d3-b07a-f1f9d5bca634),
+    dual,
+    nonextensible,
+    oleautomation,
+    pointer_default(unique)
 ]
 interface ICPUTempData : IDispatch
 {
 };
+
 [
-	uuid(91a7732c-78ba-49c0-a70b-72775c343a6f),
-	version(1.0),
+    uuid(91a7732c-78ba-49c0-a70b-72775c343a6f),
+    version(1.0),
 ]
 library DataSrvLib
 {
-	importlib("stdole2.tlb");
-	[
-		uuid(16cc38a3-da74-4c92-a05a-fb483f03a8d9)
-	]
-	dispinterface _IDataProviderEvents
-	{
-		properties:
-		methods:
+    importlib("stdole2.tlb");
+    [
+        uuid(16cc38a3-da74-4c92-a05a-fb483f03a8d9)
+    ]
+    dispinterface _IDataProviderEvents
+    {
+        properties:
+        methods:
 
-	};
+    };
 
-	[
-		uuid(50539d6d-636e-4f22-b1de-c01dadcaa86f)
-	]
-	coclass DataProvider
-	{
-		[default] interface IDataProvider;
-		[default, source] dispinterface _IDataProviderEvents;
-	};
-	[
-		uuid(35ef5d4d-2bc2-40a6-9ba6-34d0fc521bb8)
-	]
-	dispinterface _ICPUTempDataEvents
-	{
-		properties:
-		methods:
-	};
-	[
-		uuid(f44a631e-725d-4d6d-8e87-c181be87b694)
-	]
-	coclass CPUTempData
-	{
-		[default] interface ICPUTempData;
-		[default, source] dispinterface _ICPUTempDataEvents;
-	};
+    [
+        uuid(50539d6d-636e-4f22-b1de-c01dadcaa86f)
+    ]
+    coclass DataProvider
+    {
+        [default] interface IDataProvider;
+        [default, source] dispinterface _IDataProviderEvents;
+    };
+
+    [
+        uuid(35ef5d4d-2bc2-40a6-9ba6-34d0fc521bb8)
+    ]
+    dispinterface _ICPUTempDataEvents
+    {
+        properties:
+        methods:
+            [id(1), helpstring("Next Temp Sample")]
+            void OnNextSample([in]float value);
+    };
+
+    [
+        uuid(f44a631e-725d-4d6d-8e87-c181be87b694)
+    ]
+    coclass CPUTempData
+    {
+        [default] interface ICPUTempData;
+        [default, source] dispinterface _ICPUTempDataEvents;
+    };
 };
 
 import "shobjidl.idl";

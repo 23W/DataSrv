@@ -7,8 +7,29 @@
 
 class CComUtilities
 {
+public:
+
+    template<typename TComClass, typename TInterface>
+    static HRESULT CreateCOM(TInterface** ppInterface)
+    {
+        ATL::CComPtr<ATL::CComObject<TComClass>> spObject;
+        auto hr = ATL::CComObject<TComClass>::CreateInstance(&spObject);
+        if (FAILED(hr))
+        {
+            return hr;
+        }
+
+        hr = spObject.QueryInterface(ppInterface);
+        if (SUCCEEDED(hr))
+        {
+            spObject.Detach();
+        }
+
+        return hr;
+    }
+
     template<typename TComClass, typename TComUnkVector, typename... TValues>
-    static void FireEvent(TComClass* pObject, const TComUnkVector& subscribers, DISPID eventId, TValues&&... args)
+    static void FireEvent(TComClass* pObject, TComUnkVector& subscribers, DISPID eventId, TValues&&... args)
     {
         if (subscribers.GetSize() == 0)
         {
@@ -23,16 +44,33 @@ class CComUtilities
         for (auto index = 0, count = subscribers.GetSize(); index < count; index++)
         {
             pObject->Lock();
-            ATL::CComPtr<IDispatch> spUnknown(reinterpret_cast<IDispatch*>(subscribers.GetAt(index)));
+            ATL::CComPtr<IDispatch> spSubscriberDispatch(reinterpret_cast<IDispatch*>(subscribers.GetAt(index)));
             pObject->Unlock();
 
-            if (spUnknown != nullptr)
+            if (spSubscriberDispatch != nullptr)
             {
                 VariantClear(&varResult);
 
                 DISPPARAMS disp = { params.data(), nullptr, static_cast<UINT>(params.size()), 0U };
-                spDispatch->Invoke(eventId, IID_NULL, LOCALE_USER_DEFAULT, DISPATCH_METHOD, &disp, &varResult, nullptr, nullptr);
+                spSubscriberDispatch->Invoke(eventId, IID_NULL, LOCALE_USER_DEFAULT, DISPATCH_METHOD, &disp, &varResult, nullptr, nullptr);
             }
         }
+    }
+
+    template<std::size_t size>
+    static bool HasInterface(const std::array<IID, size>& data, REFIID iid)
+    {
+        return HasInterface(data.data(), data.size(), iid);
+    }
+
+    static bool HasInterface(const IID* pData, size_t count, REFIID iid)
+    {
+        auto res = false;
+        for (auto it = pData, last = pData + count; it < last && !res; ++it)
+        {
+            res = InlineIsEqualGUID(*it, iid);
+        }
+
+        return res;
     }
 };
