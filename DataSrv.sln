@@ -11,6 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataSrvPS", "DataSrvPS\Data
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataUI", "DataUI\DataUI.csproj", "{0BBC7F88-BB96-4CF2-98B4-850A8F92D2F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37EE326D-2D0F-64B9-4F75-1CC0331F7556} = {37EE326D-2D0F-64B9-4F75-1CC0331F7556}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
