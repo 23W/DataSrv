@@ -100,7 +100,8 @@
       <ProxyFileName>DataSrv_p.c</ProxyFileName>
       <GenerateStublessProxies>true</GenerateStublessProxies>
       <TypeLibraryName>DataSrv.tlb</TypeLibraryName>
-      <DllDataFileName />
+      <DllDataFileName>
+      </DllDataFileName>
       <ValidateAllParameters>true</ValidateAllParameters>
       <OutputDirectory>COM</OutputDirectory>
     </Midl>
@@ -132,7 +133,8 @@
       <ProxyFileName>DataSrv_p.c</ProxyFileName>
       <GenerateStublessProxies>true</GenerateStublessProxies>
       <TypeLibraryName>DataSrv.tlb</TypeLibraryName>
-      <DllDataFileName />
+      <DllDataFileName>
+      </DllDataFileName>
       <ValidateAllParameters>true</ValidateAllParameters>
       <OutputDirectory>COM</OutputDirectory>
     </Midl>
@@ -164,8 +166,10 @@
       <ProxyFileName>DataSrv_p.c</ProxyFileName>
       <GenerateStublessProxies>true</GenerateStublessProxies>
       <TypeLibraryName>$(IntDir)DataSrv.tlb</TypeLibraryName>
-      <DllDataFileName />
+      <DllDataFileName>
+      </DllDataFileName>
       <ValidateAllParameters>true</ValidateAllParameters>
+      <OutputDirectory>COM</OutputDirectory>
     </Midl>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -196,8 +200,10 @@
       <ProxyFileName>DataSrv_p.c</ProxyFileName>
       <GenerateStublessProxies>true</GenerateStublessProxies>
       <TypeLibraryName>$(IntDir)DataSrv.tlb</TypeLibraryName>
-      <DllDataFileName />
+      <DllDataFileName>
+      </DllDataFileName>
       <ValidateAllParameters>true</ValidateAllParameters>
+      <OutputDirectory>COM</OutputDirectory>
     </Midl>
     <ResourceCompile>
       <Culture>0x0409</Culture>
