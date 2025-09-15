@@ -10,7 +10,8 @@
         Height="450"
         Width="800"
         ExtendsContentIntoTitleBar="True"
-        Loaded="OnLoaded">
+        Loaded="OnLoaded"
+        Closing="OnClosing">
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,7 +30,11 @@
 
         <ui:TitleBar Title="Data UI"
                      Grid.Row="0"/>
-        
+
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Samples, Mode=OneWay}"
+                 d:ItemsSource="{d:SampleData ItemCount=5}"/>
+
         <ui:Button Grid.Row="2"
                    x:Name="CloseBtn"
                    Appearance="Primary"

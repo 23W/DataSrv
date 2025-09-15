@@ -36,6 +36,11 @@ namespace DataUI
             );
         }
 
+        void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ViewModel.Dispose();
+        }
+
         void OnClose(object sender, RoutedEventArgs e)
         {
             Close();
@@ -51,5 +56,6 @@ namespace DataUI
         }
 
         #endregion
+
     }
 }

@@ -62,7 +62,7 @@ void CCPUTempProvider::RunThread()
         m_running = true;
 
         ATL::CComPtr<IWbemLocator> spLoc;
-        auto hr = spLoc.CoCreateInstance(CLSID_WbemLocator);
+        auto hr = spLoc.CoCreateInstance(CLSID_WbemAdministrativeLocator);
         if (SUCCEEDED(hr))
         {
             ATL::CComPtr<IWbemServices> spSvc;
