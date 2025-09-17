@@ -167,7 +167,7 @@
       <InterfaceIdentifierFileName>DataSrv_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>DataSrv_p.c</ProxyFileName>
       <GenerateStublessProxies>true</GenerateStublessProxies>
-      <TypeLibraryName>$(IntDir)DataSrv.tlb</TypeLibraryName>
+      <TypeLibraryName>DataSrv.tlb</TypeLibraryName>
       <DllDataFileName>
       </DllDataFileName>
       <ValidateAllParameters>true</ValidateAllParameters>
@@ -201,7 +201,7 @@
       <InterfaceIdentifierFileName>DataSrv_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>DataSrv_p.c</ProxyFileName>
       <GenerateStublessProxies>true</GenerateStublessProxies>
-      <TypeLibraryName>$(IntDir)DataSrv.tlb</TypeLibraryName>
+      <TypeLibraryName>DataSrv.tlb</TypeLibraryName>
       <DllDataFileName>
       </DllDataFileName>
       <ValidateAllParameters>true</ValidateAllParameters>
