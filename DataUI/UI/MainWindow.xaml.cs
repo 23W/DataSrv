@@ -52,7 +52,7 @@ namespace DataUI
 
         void InitializeViewModel()
         {
-            ViewModel.Initialize();
+            ViewModel.Initialize(Application.Current.Resources, Dispatcher);
         }
 
         #endregion

@@ -17,8 +17,8 @@
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Resources/Theme/Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Resources/Wpf.Ui.xaml" />
+                <d:ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Resources/Theme/Light.xaml" />
+                <d:ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Resources/Wpf.Ui.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:MainWindowViewModel x:Key="ViewModel"/>
         </ResourceDictionary>
@@ -34,7 +34,10 @@
                      Grid.Row="0"/>
 
         <oxy:PlotView Grid.Row="1"
-                      Model="{Binding PlotModel}"/>
+                      Background="{ui:ThemeResource ControlFillColorDefaultBrush}"
+                      Model="{Binding PlotModel}"
+                      DefaultTrackerTemplate="{x:Null}" >
+        </oxy:PlotView>
 
         <ui:Button Grid.Row="2"
                    x:Name="CloseBtn"

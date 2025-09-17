@@ -1,8 +1,13 @@
 ﻿using DataSrvLib;
+using DataUI.UI.Converters;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Wpf.Ui.Markup;
 
 namespace DataUI.UI.ViewModels
 {
@@ -12,6 +17,10 @@ namespace DataUI.UI.ViewModels
 
         public PlotModel PlotModel {  get; init; } = new PlotModel();
 
+        ResourceDictionary? Resources { get; set; } = default;
+
+        Dispatcher? Dispatcher { get; set; } = default;
+
         CPUTempData? CPUProvider { get; set; } = default;
 
         IList<float> Values { get; set; } = new List<float>();
@@ -20,9 +29,15 @@ namespace DataUI.UI.ViewModels
 
         #region Construction
 
-        public void Initialize()
+        public void Initialize(ResourceDictionary resources, Dispatcher dispatcher)
         {
-            Values = Enumerable.Repeat(0.0f, 100).ToList();
+            Debug.Assert(resources != default);
+            Debug.Assert(dispatcher != default);
+
+            Resources = resources;
+            Dispatcher = dispatcher;
+
+            Values = Enumerable.Repeat(0.0f, 80).ToList();
             BuildPlotModel();
 
             var obj = new DataProvider();
@@ -46,7 +61,7 @@ namespace DataUI.UI.ViewModels
 
         void OnNextSample(float value)
         {
-            Application.Current.Dispatcher.Invoke(() => AddSample(value));
+            Dispatcher?.Invoke(() => AddSample(value));
         }
 
         #endregion
@@ -56,10 +71,8 @@ namespace DataUI.UI.ViewModels
         void BuildPlotModel()
         {
             var series = new LinearBarSeries();
-            series.FillColor = OxyColor.FromArgb(69, 76, 175, 80);
-            series.StrokeColor = OxyColor.FromArgb(255, 76, 175, 80);
             series.StrokeThickness = 1;
-            series.Points.AddRange(Values.Select((v, i)=> new DataPoint(i, v)));
+            series.Points.AddRange(Values.Select((v, i) => new DataPoint(i, v)));
 
             var axisTemp = new LinearAxis();
             axisTemp.Position = AxisPosition.Left;
@@ -67,16 +80,80 @@ namespace DataUI.UI.ViewModels
             axisTemp.Maximum = 100;
             axisTemp.MajorGridlineStyle = LineStyle.Solid;
             axisTemp.MinorGridlineStyle = LineStyle.Dot;
+            axisTemp.IsPanEnabled = false;
             axisTemp.IsZoomEnabled = false;
 
             var axisSample = new LinearAxis();
             axisSample.Position = AxisPosition.Bottom;
             axisSample.TickStyle = TickStyle.None;
+            axisSample.IsPanEnabled = false;
+            axisSample.IsZoomEnabled = false;
             axisSample.IsAxisVisible = false;
 
             PlotModel.Axes.Add(axisTemp);
             PlotModel.Axes.Add(axisSample);
             PlotModel.Series.Add(series);
+
+            BindPlotColors();
+            BindTextTitels();
+        }
+
+        void BindPlotColors()
+        {
+            if (Resources == default)
+            {
+                return;
+            }
+
+            var converter = new ColorToOxyPlotColorConverter();
+            var background = converter.Convert((Color)Resources[ThemeResource.ApplicationBackgroundColor.ToString()]);
+            var border = converter.Convert((Color)Resources[ThemeResource.ControlStrokeColorDefault.ToString()]);
+            var text = converter.Convert((Color)Resources[ThemeResource.TextFillColorPrimary.ToString()]);
+            var title = converter.Convert((Color)Resources[ThemeResource.TextFillColorSecondary.ToString()]);
+            var subTitle = converter.Convert((Color)Resources[ThemeResource.TextFillColorTertiary.ToString()]);
+            var majorGrid = converter.Convert((Color)Resources[ThemeResource.TextFillColorTertiary.ToString()]);
+            var minorGrid = majorGrid;
+            var seriesStroke = converter.Convert((Color)Resources[ThemeResource.SystemAccentColorPrimary.ToString()]);
+            var seriesFill = OxyColor.FromAColor(0x30, seriesStroke);
+
+            PlotModel.Background = background;
+            PlotModel.PlotAreaBackground = background;
+            PlotModel.PlotAreaBorderColor = border;
+            PlotModel.TextColor = text;
+            PlotModel.TitleColor = title;
+            PlotModel.SubtitleColor = subTitle;
+
+            var axisTemp = PlotModel.Axes.Cast<LinearAxis>()
+                                         .FirstOrDefault(a => a.Position == AxisPosition.Left);
+            if (axisTemp != default)
+            {
+                axisTemp.TitleColor = title;
+                axisTemp.MajorGridlineColor = majorGrid;
+                axisTemp.MinorGridlineColor = minorGrid;
+            }
+
+            var series = PlotModel.Series.ElementAtOrDefault(0) as LinearBarSeries;
+            if (series != default)
+            {
+                series.StrokeColor = seriesStroke;
+                series.FillColor = seriesFill;
+            }
+        }
+
+        void BindTextTitels()
+        {
+            if (Resources == default)
+            {
+                return;
+            }
+
+            var axisTemp = PlotModel.Axes.Cast<LinearAxis>()
+                                         .FirstOrDefault(a => a.Position == AxisPosition.Left);
+            if (axisTemp != default)
+            {
+                axisTemp.Title = (string)Resources["TemperatureLabel"];
+                axisTemp.Unit = (string)Resources["CelsiusUnitLabel"];
+            }
         }
 
         void AddSample(float value)
