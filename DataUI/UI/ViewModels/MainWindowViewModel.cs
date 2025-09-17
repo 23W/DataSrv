@@ -70,7 +70,7 @@ namespace DataUI.UI.ViewModels
 
         void BuildPlotModel()
         {
-            var series = new LinearBarSeries();
+            var series = new AreaSeries();
             series.StrokeThickness = 1;
             series.Points.AddRange(Values.Select((v, i) => new DataPoint(i, v)));
 
@@ -96,6 +96,8 @@ namespace DataUI.UI.ViewModels
 
             BindPlotColors();
             BindTextTitels();
+
+            PlotModel.InvalidatePlot(true);
         }
 
         void BindPlotColors()
@@ -132,11 +134,11 @@ namespace DataUI.UI.ViewModels
                 axisTemp.MinorGridlineColor = minorGrid;
             }
 
-            var series = PlotModel.Series.ElementAtOrDefault(0) as LinearBarSeries;
+            var series = PlotModel.Series.ElementAtOrDefault(0) as AreaSeries;
             if (series != default)
             {
-                series.StrokeColor = seriesStroke;
-                series.FillColor = seriesFill;
+                series.Color = seriesStroke;
+                series.Fill = seriesFill;
             }
         }
 
@@ -161,9 +163,19 @@ namespace DataUI.UI.ViewModels
             Values.RemoveAt(0);
             Values.Add(value);
 
-            var series = PlotModel.Series.Cast<LinearBarSeries>().First()!;
-            series.Points.Clear();
-            series.Points.AddRange(Values.Select((v, i) => new DataPoint(i, v)));
+            var series = PlotModel.Series.FirstOrDefault() as AreaSeries;
+            if (series != default)
+            {
+                series.Points.Clear();
+                series.Points.AddRange(Values.Select((v, i) => new DataPoint(i, v)));
+            }
+
+            var axisTemp = PlotModel.Axes.Cast<LinearAxis>()
+                                         .FirstOrDefault(a => a.Position == AxisPosition.Left);
+            if (axisTemp != default)
+            {
+                axisTemp.Minimum = Math.Max(Values.Min() - 30, 0);
+            }
 
             PlotModel.InvalidatePlot(true);
         }

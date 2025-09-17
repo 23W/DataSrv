@@ -220,6 +220,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Data Providers\CPUTempPDHProvider.h" />
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
     <ClInclude Include="Utilities\ComUtilities.h" />
     <ClInclude Include="COM\DataProvider.h" />
@@ -238,6 +239,7 @@
   <ItemGroup>
     <ClCompile Include="COM\DataProvider.cpp" />
     <ClCompile Include="COM\CPUTempData.cpp" />
+    <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp" />
     <ClCompile Include="DataSrv.cpp" />
     <ClCompile Include="COM\DataSrv_i.c">

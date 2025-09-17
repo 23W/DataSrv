@@ -70,6 +70,9 @@
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
+    <ClInclude Include="Data Providers\CPUTempPDHProvider.h">
+      <Filter>Data Providers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataSrv.cpp">
@@ -88,6 +91,9 @@
       <Filter>COM</Filter>
     </ClCompile>
     <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp">
+      <Filter>Data Providers</Filter>
+    </ClCompile>
+    <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp">
       <Filter>Data Providers</Filter>
     </ClCompile>
   </ItemGroup>
