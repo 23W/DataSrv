@@ -5,7 +5,7 @@
 #include <mutex>
 #include "..\Utilities\Event.h"
 
-class CCPUTempProvider
+class CCPUTempWMIProvider
 {
 public:
     using TSampleEvent = Event<float>;
@@ -13,8 +13,8 @@ public:
 
     // Construction
 
-    CCPUTempProvider();
-    ~CCPUTempProvider();
+    CCPUTempWMIProvider();
+    ~CCPUTempWMIProvider();
 
     // Methods
 

@@ -3,8 +3,7 @@
 #pragma once
 #include "../resource.h"       // main symbols
 
-#include "../Data Providers/CPUTempProvider.h"
-#include "DataSrv_i.h"
+#include "../DataSrv.h"
 #include "_ICPUTempDataEvents_CP.h"
 
 
@@ -25,7 +24,7 @@ class ATL_NO_VTABLE CCPUTempData :
     public IDispatchImpl<ICPUTempData, &IID_ICPUTempData, &LIBID_DataSrvLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-    using TDataProvider = CCPUTempProvider;
+    using TDataProvider = CDataSrvModule::TCpuTemp;
     using TEventId = TDataProvider::TSampleEvent::TId;
 
     // Construction

@@ -91,6 +91,7 @@
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -123,6 +124,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -218,7 +220,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Data Providers\CPUTempProvider.h" />
+    <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
     <ClInclude Include="Utilities\ComUtilities.h" />
     <ClInclude Include="COM\DataProvider.h" />
     <ClInclude Include="COM\CPUTempData.h" />
@@ -236,7 +238,7 @@
   <ItemGroup>
     <ClCompile Include="COM\DataProvider.cpp" />
     <ClCompile Include="COM\CPUTempData.cpp" />
-    <ClCompile Include="Data Providers\CPUTempProvider.cpp" />
+    <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp" />
     <ClCompile Include="DataSrv.cpp" />
     <ClCompile Include="COM\DataSrv_i.c">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

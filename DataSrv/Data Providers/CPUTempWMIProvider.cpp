@@ -2,25 +2,25 @@
 #include <wbemidl.h>
 #include <comdef.h>
 
-#include "CPUTempProvider.h"
+#include "CPUTempWMIProvider.h"
 
 #pragma comment(lib, "wbemuuid.lib")
 
 
 // Construction
 
-CCPUTempProvider::CCPUTempProvider()
+CCPUTempWMIProvider::CCPUTempWMIProvider()
 {
 }
 
-CCPUTempProvider::~CCPUTempProvider()
+CCPUTempWMIProvider::~CCPUTempWMIProvider()
 {
     StopThread();
 }
 
 // Methods
 
-CCPUTempProvider::TSampleEvent::TId CCPUTempProvider::Subscrive(TSampleEvent::THandler&& handler)
+CCPUTempWMIProvider::TSampleEvent::TId CCPUTempWMIProvider::Subscrive(TSampleEvent::THandler&& handler)
 {
     std::lock_guard<TLock> lock(m_lock);
 
@@ -36,7 +36,7 @@ CCPUTempProvider::TSampleEvent::TId CCPUTempProvider::Subscrive(TSampleEvent::TH
     return id;
 }
 
-void CCPUTempProvider::Unsubscrive(const TSampleEvent::TId& id)
+void CCPUTempWMIProvider::Unsubscrive(const TSampleEvent::TId& id)
 {
     std::lock_guard<TLock> lock(m_lock);
     
@@ -50,7 +50,7 @@ void CCPUTempProvider::Unsubscrive(const TSampleEvent::TId& id)
 
 // Helper Methods
 
-void CCPUTempProvider::RunThread()
+void CCPUTempWMIProvider::RunThread()
 {
     if (m_running)
     {
@@ -62,7 +62,7 @@ void CCPUTempProvider::RunThread()
         m_running = true;
 
         ATL::CComPtr<IWbemLocator> spLoc;
-        auto hr = spLoc.CoCreateInstance(CLSID_WbemAdministrativeLocator);
+        auto hr = spLoc.CoCreateInstance(CLSID_WbemLocator);
         if (SUCCEEDED(hr))
         {
             ATL::CComPtr<IWbemServices> spSvc;
@@ -122,7 +122,7 @@ void CCPUTempProvider::RunThread()
     });
 }
 
-void CCPUTempProvider::StopThread()
+void CCPUTempWMIProvider::StopThread()
 {
     m_running = false;
 

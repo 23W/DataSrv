@@ -67,7 +67,7 @@
     <ClInclude Include="COM\CPUTempData.h">
       <Filter>COM</Filter>
     </ClInclude>
-    <ClInclude Include="Data Providers\CPUTempProvider.h">
+    <ClInclude Include="Data Providers\CPUTempWMIProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -87,7 +87,7 @@
     <ClCompile Include="COM\CPUTempData.cpp">
       <Filter>COM</Filter>
     </ClCompile>
-    <ClCompile Include="Data Providers\CPUTempProvider.cpp">
+    <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp">
       <Filter>Data Providers</Filter>
     </ClCompile>
   </ItemGroup>
