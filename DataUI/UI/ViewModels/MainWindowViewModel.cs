@@ -37,7 +37,7 @@ namespace DataUI.UI.ViewModels
             Resources = resources;
             Dispatcher = dispatcher;
 
-            Values = Enumerable.Repeat(0.0f, 80).ToList();
+            Values = Enumerable.Repeat(0.0f, 100).ToList();
             BuildPlotModel();
 
             var obj = new DataProvider();
@@ -79,7 +79,7 @@ namespace DataUI.UI.ViewModels
             axisTemp.Minimum = 0;
             axisTemp.Maximum = 100;
             axisTemp.MajorGridlineStyle = LineStyle.Solid;
-            axisTemp.MinorGridlineStyle = LineStyle.Dot;
+            axisTemp.MinorGridlineStyle = LineStyle.Solid;
             axisTemp.IsPanEnabled = false;
             axisTemp.IsZoomEnabled = false;
 
@@ -114,7 +114,7 @@ namespace DataUI.UI.ViewModels
             var title = converter.Convert((Color)Resources[ThemeResource.TextFillColorSecondary.ToString()]);
             var subTitle = converter.Convert((Color)Resources[ThemeResource.TextFillColorTertiary.ToString()]);
             var majorGrid = converter.Convert((Color)Resources[ThemeResource.TextFillColorTertiary.ToString()]);
-            var minorGrid = majorGrid;
+            var minorGrid = OxyColor.FromAColor(0x30, majorGrid);
             var seriesStroke = converter.Convert((Color)Resources[ThemeResource.SystemAccentColorPrimary.ToString()]);
             var seriesFill = OxyColor.FromAColor(0x30, seriesStroke);
 
