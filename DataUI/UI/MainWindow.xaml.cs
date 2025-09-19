@@ -41,7 +41,7 @@ namespace DataUI
             ViewModel.Dispose();
         }
 
-        void OnClose(object sender, RoutedEventArgs e)
+        void OnCloseBtn(object sender, RoutedEventArgs e)
         {
             Close();
         }

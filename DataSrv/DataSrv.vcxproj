@@ -92,6 +92,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -125,6 +126,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -158,6 +160,8 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -193,6 +197,8 @@
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -220,6 +226,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Data Providers\CPUTempProvider.h" />
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h" />
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
     <ClInclude Include="Utilities\ComUtilities.h" />
@@ -232,6 +239,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utilities\Event.h" />
+    <ClInclude Include="Utilities\RangeUtilities.h" />
     <ClInclude Include="Utilities\StringUtilities.h" />
     <ClInclude Include="COM\_IDataProviderEvents_CP.h" />
     <ClInclude Include="COM\_ICPUTempDataEvents_CP.h" />
@@ -239,6 +247,7 @@
   <ItemGroup>
     <ClCompile Include="COM\DataProvider.cpp" />
     <ClCompile Include="COM\CPUTempData.cpp" />
+    <ClCompile Include="Data Providers\CPUTempProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp" />
     <ClCompile Include="DataSrv.cpp" />

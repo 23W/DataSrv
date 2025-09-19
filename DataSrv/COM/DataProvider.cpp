@@ -24,7 +24,7 @@ STDMETHODIMP CDataProvider::get_CpuTemp(ICPUTempData** ppData)
 {
     if (ppData == nullptr)
     {
-        return Error(_T("Invalid pointer"), IID_IDataProvider, E_POINTER);
+        return CComUtilities::ErrorInvalidPointer(this, IID_IDataProvider);
     }
 
     ObjectLock lock(this);

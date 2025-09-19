@@ -12,15 +12,16 @@ class CDataSrvModule : public ATL::CAtlServiceModuleT< CDataSrvModule, IDS_SERVI
 {
 public:
     using TBase = ATL::CAtlServiceModuleT< CDataSrvModule, IDS_SERVICENAME >;
-    //using TCpuTemp = CCPUTempWMIProvider;
-    using TCpuTemp = CCPUTempPDHProvider;
+    using TCpuWMITemp = CCPUTempWMIProvider;
+    using TCpuPDHTemp = CCPUTempPDHProvider;
+    using TCpuTemp = CCPUTempProvider;
 
     DECLARE_LIBID(LIBID_DataSrvLib)
     DECLARE_REGISTRY_APPID_RESOURCEID(IDR_DATASRV, "{91a7732c-78ba-49c0-a70b-72775c343a6f}")
 
     static CDataSrvModule& GetModule();
 
-    TCpuTemp& GetCPUTempProvide() { return m_cpuTempProvider; }
+    TCpuTemp& GetCPUTempProvide(SourceType sourceType);
 
     HRESULT InitializeSecurity() noexcept;
     HRESULT RegisterClassObjects(DWORD dwClsContext, DWORD dwFlags) noexcept;
@@ -30,5 +31,6 @@ public:
     HRESULT Run(int nShowCmd) noexcept;
 
 private:
-    TCpuTemp m_cpuTempProvider;
+    TCpuWMITemp m_cpuTempWMIProvider;
+    TCpuPDHTemp m_cpuTempPDHProvider;
 };

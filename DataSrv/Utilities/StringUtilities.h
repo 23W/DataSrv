@@ -1,6 +1,8 @@
 #pragma once
 
 #include <atlstr.h>
+#include <string>
+#include <format>
 #include <utility>
 
 class CStringUtilities

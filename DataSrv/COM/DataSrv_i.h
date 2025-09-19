@@ -119,6 +119,15 @@ extern "C"{
 
 
 
+typedef /* [helpstring] */ 
+enum SourceType
+    {
+        PDH	= 0,
+        WMI	= 1,
+        _Min	= PDH,
+        _Max	= WMI
+    } 	SourceType;
+
 
 
 extern RPC_IF_HANDLE __MIDL_itf_DataSrv_0000_0000_v0_0_c_ifspec;
@@ -277,6 +286,12 @@ EXTERN_C const IID IID_ICPUTempData;
     ICPUTempData : public IDispatch
     {
     public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Source( 
+            /* [retval][out] */ SourceType *pSourceType) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Source( 
+            /* [in] */ SourceType sourceType) = 0;
+        
     };
     
     
@@ -342,6 +357,16 @@ EXTERN_C const IID IID_ICPUTempData;
             /* [annotation][out] */ 
             _Out_opt_  UINT *puArgErr);
         
+        DECLSPEC_XFGVIRT(ICPUTempData, get_Source)
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Source )( 
+            ICPUTempData * This,
+            /* [retval][out] */ SourceType *pSourceType);
+        
+        DECLSPEC_XFGVIRT(ICPUTempData, put_Source)
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Source )( 
+            ICPUTempData * This,
+            /* [in] */ SourceType sourceType);
+        
         END_INTERFACE
     } ICPUTempDataVtbl;
 
@@ -377,6 +402,12 @@ EXTERN_C const IID IID_ICPUTempData;
 #define ICPUTempData_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
+
+#define ICPUTempData_get_Source(This,pSourceType)	\
+    ( (This)->lpVtbl -> get_Source(This,pSourceType) ) 
+
+#define ICPUTempData_put_Source(This,sourceType)	\
+    ( (This)->lpVtbl -> put_Source(This,sourceType) ) 
 
 #endif /* COBJMACROS */
 

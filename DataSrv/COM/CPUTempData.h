@@ -53,11 +53,16 @@ public:
 
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
 
+    STDMETHOD(get_Source)(SourceType* pSourceType);
+    STDMETHOD(put_Source)(SourceType sourceType);
+
 private:
 
     // Helper Methods
 
-    static TDataProvider& GetProvider();
+    TDataProvider& GetProvider();
+
+    void ChangeSourceType(SourceType sourceType);
 
     void SubscribeDataEvent();
     void UnsubscribeDataEvent();
@@ -66,6 +71,7 @@ private:
     // Members
 
     TEventId m_eventId;
+    SourceType m_sourceType;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(CPUTempData), CCPUTempData)

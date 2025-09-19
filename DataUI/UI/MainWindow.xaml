@@ -39,12 +39,23 @@
                       DefaultTrackerTemplate="{x:Null}" >
         </oxy:PlotView>
 
-        <ui:Button Grid.Row="2"
-                   x:Name="CloseBtn"
-                   Appearance="Primary"
-                   Content="Close"
-                   HorizontalAlignment="Right"
-                   Margin="5,5,5,5"
-                   Click="OnClose"/>
+        <Grid Grid.Row="2" Margin="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0"
+                      MinWidth="300"
+                      ItemsSource="{Binding Sources}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Source"
+                      SelectedValue="{Binding Source}"/>
+            <ui:Button Grid.Column="2"
+                       Appearance="Primary"
+                       Content="Close"
+                       HorizontalAlignment="Right"
+                       Click="OnCloseBtn"/>
+        </Grid>
     </Grid>
 </ui:FluentWindow>

@@ -15,7 +15,29 @@ namespace DataUI.UI.ViewModels
     {
         #region Properties
 
-        public PlotModel PlotModel {  get; init; } = new PlotModel();
+        public PlotModel PlotModel { get; init; } = new PlotModel();
+
+        public IEnumerable<SourceViewModel> Sources { get; } = new[] { SourceType.PDH, SourceType.WMI }
+                                                                     .Select(s => new SourceViewModel() { Source = s })
+                                                                     .ToList();
+
+        public SourceType Source
+        {
+            get => CPUProvider?.Source ?? SourceType.PDH;
+            set
+            {
+                if (CPUProvider == default)
+                {
+                    return;
+                }
+
+                if (CPUProvider.Source != value)
+                {
+                    CPUProvider.Source = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         ResourceDictionary? Resources { get; set; } = default;
 
@@ -43,6 +65,7 @@ namespace DataUI.UI.ViewModels
             var obj = new DataProvider();
 
             CPUProvider = obj.CpuTemp;
+            CPUProvider.Source = SourceType.PDH;
             CPUProvider.OnNextSample += OnNextSample;
         }
 
@@ -174,7 +197,7 @@ namespace DataUI.UI.ViewModels
                                          .FirstOrDefault(a => a.Position == AxisPosition.Left);
             if (axisTemp != default)
             {
-                axisTemp.Minimum = Math.Max(Values.Min() - 30, 0);
+                axisTemp.Minimum = Math.Floor(Math.Max(Values.Min() - 30, 0) / 10) * 10;
             }
 
             PlotModel.InvalidatePlot(true);

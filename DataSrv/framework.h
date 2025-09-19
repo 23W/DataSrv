@@ -6,12 +6,13 @@
 
 #include "targetver.h"
 
+#include <stdexcept>
+
 #define _ATL_FREE_THREADED
 
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
-
 
 #define ATL_NO_ASSERT_ON_DESTROY_NONEXISTENT_WINDOW
 
@@ -20,3 +21,4 @@
 #include <atlcom.h>
 #include <atlctl.h>
 #include <atlstr.h>
+	

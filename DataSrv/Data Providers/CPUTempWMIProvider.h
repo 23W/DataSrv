@@ -1,38 +1,20 @@
 #pragma once
 
-#include <atomic>
-#include <thread>
-#include <mutex>
-#include "..\Utilities\Event.h"
+#include "CPUTempProvider.h"
 
-class CCPUTempWMIProvider
+class CCPUTempWMIProvider : public CCPUTempProvider
 {
 public:
-    using TSampleEvent = Event<float>;
-    using TLock = std::mutex;
+    using TBase = CCPUTempProvider;
 
     // Construction
 
     CCPUTempWMIProvider();
     ~CCPUTempWMIProvider();
 
-    // Methods
+protected:
 
-    TSampleEvent::TId Subscrive(TSampleEvent::THandler&& handler);
-    void Unsubscrive(const TSampleEvent::TId& id);
+    // Overrides
 
-private:
-
-    // Helper Methods
-
-    void RunThread();
-    void StopThread();
-
-    // Members
-
-    mutable TLock m_lock;
-
-    TSampleEvent m_sampleEvent;
-    std::atomic_bool m_running;
-    std::thread m_thread;
+    void RunThread() override;
 };

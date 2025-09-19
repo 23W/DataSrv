@@ -73,4 +73,10 @@ public:
 
         return res;
     }
+
+    template<typename TComClass>
+    static HRESULT ErrorInvalidPointer(TComClass* pObject, IID iid)
+    {
+        return pObject->Error(_T("Invalid pointer"), iid, E_POINTER);
+    }
 };

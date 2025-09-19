@@ -4,4 +4,6 @@
 
     <system:String x:Key="TemperatureLabel">Temperature</system:String>
     <system:String x:Key="CelsiusUnitLabel">°C</system:String>
+    <system:String x:Key="SourcePDHLabel">Performance Counters</system:String>
+    <system:String x:Key="SourceWMILabel">Windows Management Instrumentation</system:String>
 </ResourceDictionary>

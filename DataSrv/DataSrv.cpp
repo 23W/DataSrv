@@ -9,6 +9,22 @@ CDataSrvModule& CDataSrvModule::GetModule()
     return _AtlModule;
 }
 
+CDataSrvModule::TCpuTemp& CDataSrvModule::GetCPUTempProvide(SourceType sourceType)
+{
+    switch (sourceType)
+    {
+    case SourceType::PDH:
+        return m_cpuTempPDHProvider;
+        break;
+    case SourceType::WMI:
+        return m_cpuTempWMIProvider;
+        break;
+
+    default:
+        throw std::invalid_argument(std::format("Unknow data source type: {:d}", static_cast<int>(sourceType)));
+    }
+}
+
 HRESULT CDataSrvModule::InitializeSecurity() noexcept
 {
     const auto hr = CoInitializeSecurity(nullptr,
@@ -21,7 +37,7 @@ HRESULT CDataSrvModule::InitializeSecurity() noexcept
                                          EOAC_NONE,
                                          nullptr);
 
-    LogEvent(CStringUtilities::Format(_T("InitializeSecurity %ld"), hr));
+    LogEvent(CStringUtilities::Format(_T("InitializeSecurity: %ld"), hr));
     return hr;
 }
 

@@ -16,6 +16,19 @@ import "ocidl.idl";
 interface IDataProvider;
 interface ICPUTempData;
 
+[helpstring("Data source types")]
+typedef enum SourceType
+{
+    PDH = 0,
+    WMI = 1,
+
+    [hidden]
+    _Min = PDH,
+
+    [hidden]
+    _Max = WMI
+} SourceType;
+
 [
     object,
     uuid(1623b515-ff0c-4473-b388-3e96e6bfade0),
@@ -40,6 +53,11 @@ interface IDataProvider : IDispatch
 ]
 interface ICPUTempData : IDispatch
 {
+    [propget, id(100), helpstring("Data source type")]
+    HRESULT Source([out, retval]SourceType* pSourceType);
+
+    [propput, id(100), helpstring("Data source type")]
+    HRESULT Source([in]SourceType sourceType);
 };
 
 [
