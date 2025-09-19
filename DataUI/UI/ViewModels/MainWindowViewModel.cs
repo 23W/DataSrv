@@ -45,8 +45,6 @@ namespace DataUI.UI.ViewModels
 
         CPUTempData? CPUProvider { get; set; } = default;
 
-        IList<float> Values { get; set; } = new List<float>();
-
         #endregion
 
         #region Construction
@@ -59,7 +57,6 @@ namespace DataUI.UI.ViewModels
             Resources = resources;
             Dispatcher = dispatcher;
 
-            Values = Enumerable.Repeat(0.0f, 100).ToList();
             BuildPlotModel();
 
             var obj = new DataProvider();
@@ -95,12 +92,11 @@ namespace DataUI.UI.ViewModels
         {
             var series = new AreaSeries();
             series.StrokeThickness = 1;
-            series.Points.AddRange(Values.Select((v, i) => new DataPoint(i, v)));
 
             var axisTemp = new LinearAxis();
             axisTemp.Position = AxisPosition.Left;
             axisTemp.Minimum = 0;
-            axisTemp.Maximum = 100;
+            axisTemp.Maximum = c_maxTemp;
             axisTemp.MajorGridlineStyle = LineStyle.Solid;
             axisTemp.MinorGridlineStyle = LineStyle.Solid;
             axisTemp.IsPanEnabled = false;
@@ -108,6 +104,8 @@ namespace DataUI.UI.ViewModels
 
             var axisSample = new LinearAxis();
             axisSample.Position = AxisPosition.Bottom;
+            axisSample.Minimum = 0;
+            axisSample.Maximum = c_maxCount - 1;
             axisSample.TickStyle = TickStyle.None;
             axisSample.IsPanEnabled = false;
             axisSample.IsZoomEnabled = false;
@@ -183,25 +181,43 @@ namespace DataUI.UI.ViewModels
 
         void AddSample(float value)
         {
-            Values.RemoveAt(0);
-            Values.Add(value);
-
             var series = PlotModel.Series.FirstOrDefault() as AreaSeries;
             if (series != default)
             {
-                series.Points.Clear();
-                series.Points.AddRange(Values.Select((v, i) => new DataPoint(i, v)));
-            }
+                var axisTemp = (LinearAxis)PlotModel.Axes.ElementAt(0);
+                var axisSample = (LinearAxis)PlotModel.Axes.ElementAt(1);
+                Debug.Assert(axisTemp.Position == AxisPosition.Left);
+                Debug.Assert(axisSample.Position == AxisPosition.Bottom);
 
-            var axisTemp = PlotModel.Axes.Cast<LinearAxis>()
-                                         .FirstOrDefault(a => a.Position == AxisPosition.Left);
-            if (axisTemp != default)
-            {
-                axisTemp.Minimum = Math.Floor(Math.Max(Values.Min() - 30, 0) / 10) * 10;
+                var shiftData = series.Points.Count >= c_maxCount;
+
+                // new sample
+                var sample = new DataPoint(shiftData ? axisSample.Maximum + 1 : series.Points.Count, value);
+                series.Points.Add(sample);
+
+                // scroll graph and remove oldest sample
+                if (shiftData)
+                {
+                    axisSample.Minimum += 1;
+                    axisSample.Maximum += 1;
+
+                    series.Points.RemoveRange(0, series.Points.Count - c_maxCount);
+                }
+
+                // tune low temp scale
+                var minValue = series.Points.Select(dp => dp.Y).Min();
+                axisTemp.Minimum = Math.Floor(Math.Max(minValue - 30, 0) / 10) * 10;
             }
 
             PlotModel.InvalidatePlot(true);
         }
+
+        #endregion
+
+        #region Constants
+
+        const int c_maxCount = 100;
+        const double c_maxTemp = 100;
 
         #endregion
     }
