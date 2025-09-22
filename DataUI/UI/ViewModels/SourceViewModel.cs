@@ -1,11 +1,12 @@
 ﻿using DataSrvLib;
 using System.Diagnostics;
-using System.Windows;
 
 namespace DataUI.UI.ViewModels
 {
     public class SourceViewModel : ObservableModel
     {
+        public IWindowViewModelHost? Host { get; init; }
+
         public SourceType Source
         {
             get => m_sourceType;
@@ -21,21 +22,24 @@ namespace DataUI.UI.ViewModels
 
         public string Name => GetSourceName(Source);
 
-        static string GetSourceName(SourceType source)
+        string GetSourceName(SourceType source)
         {
             var res = string.Empty;
 
-            switch (source)
+            if (Host != default)
             {
-                case SourceType.PDH:
-                    res = (string)Application.Current.Resources["SourcePDHLabel"];
-                    break;
-                case SourceType.WMI:
-                    res = (string)Application.Current.Resources["SourceWMILabel"];
-                    break;
-                default:
-                    Debug.Assert(false, "Unknow SourceType");
-                    break;
+                switch (source)
+                {
+                    case SourceType.PDH:
+                        res = (string)Host.ApplicationResources["SourcePDHLabel"];
+                        break;
+                    case SourceType.WMI:
+                        res = (string)Host.ApplicationResources["SourceWMILabel"];
+                        break;
+                    default:
+                        Debug.Assert(false, "Unknow SourceType");
+                        break;
+                }
             }
 
             return res;

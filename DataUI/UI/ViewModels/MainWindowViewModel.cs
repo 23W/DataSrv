@@ -4,9 +4,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using System.Diagnostics;
-using System.Windows;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Wpf.Ui.Markup;
 
 namespace DataUI.UI.ViewModels
@@ -17,9 +15,7 @@ namespace DataUI.UI.ViewModels
 
         public PlotModel PlotModel { get; init; } = new PlotModel();
 
-        public IEnumerable<SourceViewModel> Sources { get; } = new[] { SourceType.PDH, SourceType.WMI }
-                                                                     .Select(s => new SourceViewModel() { Source = s })
-                                                                     .ToList();
+        public IEnumerable<SourceViewModel> Sources => GetSourceViewModels();
 
         public SourceType Source
         {
@@ -39,9 +35,7 @@ namespace DataUI.UI.ViewModels
             }
         }
 
-        ResourceDictionary? Resources { get; set; } = default;
-
-        Dispatcher? Dispatcher { get; set; } = default;
+        IWindowViewModelHost? Host { get; set; } = default;
 
         CPUTempData? CPUProvider { get; set; } = default;
 
@@ -49,29 +43,37 @@ namespace DataUI.UI.ViewModels
 
         #region Construction
 
-        public void Initialize(ResourceDictionary resources, Dispatcher dispatcher)
+        public void Initialize(IWindowViewModelHost host)
         {
-            Debug.Assert(resources != default);
-            Debug.Assert(dispatcher != default);
+            Debug.Assert(host != default);
 
-            Resources = resources;
-            Dispatcher = dispatcher;
+            Host = host;
+
+            if (Host != default)
+            {
+                Host.Loaded += OnLoadedAsync;
+                Host.ThemeChanged += OnThemeChanged;
+            }
 
             BuildPlotModel();
 
-            var obj = new DataProvider();
-
-            CPUProvider = obj.CpuTemp;
-            CPUProvider.Source = SourceType.PDH;
-            CPUProvider.OnNextSample += OnNextSample;
+            NotifyPropertyChanged(nameof(Sources),
+                                  nameof(Source));
         }
 
         public void Dispose()
         {
-            if (CPUProvider != null)
+            if (CPUProvider != default)
             {
                 CPUProvider.OnNextSample -= OnNextSample;
-                CPUProvider = null;
+                CPUProvider = default;
+            }
+
+            if (Host != default)
+            {
+                Host.Loaded -= OnLoadedAsync;
+                Host.ThemeChanged -= OnThemeChanged;
+                Host = default;
             }
         }
 
@@ -79,14 +81,55 @@ namespace DataUI.UI.ViewModels
 
         #region Event Handlers
 
+        async void OnLoadedAsync(object sender, System.Windows.RoutedEventArgs e)
+        {
+            await BuildDataProviderAsync();
+        }
+
+        void OnThemeChanged(Wpf.Ui.Appearance.ApplicationTheme currentApplicationTheme, Color systemAccent)
+        {
+            BindPlotColors();
+        }
+
         void OnNextSample(float value)
         {
-            Dispatcher?.Invoke(() => AddSample(value));
+            Host?.Dispatcher.Invoke(() => AddSample(value));
         }
 
         #endregion
 
         #region Helper Methods
+
+        IEnumerable<SourceViewModel> GetSourceViewModels()
+        {
+            var res = new[] { SourceType.PDH, SourceType.WMI }
+                      .Select(s => new SourceViewModel() { Source = s, Host = Host })
+                      .ToList();
+            return res;
+        }
+
+        async Task BuildDataProviderAsync()
+        {
+            try
+            {
+                var dataProvider = new DataProvider();
+
+                CPUProvider = dataProvider.CpuTemp;
+                CPUProvider.Source = SourceType.PDH;
+                CPUProvider.OnNextSample += OnNextSample;
+
+                NotifyPropertyChanged(nameof(Sources),
+                                      nameof(Source));
+            }
+            catch
+            {
+                if (Host != default)
+                {
+                    await Host.ShowMessageBoxAsync((string)Host.ApplicationResources["Error"],
+                                                   (string)Host.ApplicationResources["ProviderFailedLabel"]);
+                }
+            }
+        }
 
         void BuildPlotModel()
         {
@@ -111,6 +154,7 @@ namespace DataUI.UI.ViewModels
             axisSample.IsZoomEnabled = false;
             axisSample.IsAxisVisible = false;
 
+            PlotModel.IsLegendVisible = false;
             PlotModel.Axes.Add(axisTemp);
             PlotModel.Axes.Add(axisSample);
             PlotModel.Series.Add(series);
@@ -123,25 +167,24 @@ namespace DataUI.UI.ViewModels
 
         void BindPlotColors()
         {
-            if (Resources == default)
+            if (Host == default)
             {
                 return;
             }
 
             var converter = new ColorToOxyPlotColorConverter();
-            var background = converter.Convert((Color)Resources[ThemeResource.ApplicationBackgroundColor.ToString()]);
-            var border = converter.Convert((Color)Resources[ThemeResource.ControlStrokeColorDefault.ToString()]);
-            var text = converter.Convert((Color)Resources[ThemeResource.TextFillColorPrimary.ToString()]);
-            var title = converter.Convert((Color)Resources[ThemeResource.TextFillColorSecondary.ToString()]);
-            var subTitle = converter.Convert((Color)Resources[ThemeResource.TextFillColorTertiary.ToString()]);
-            var majorGrid = converter.Convert((Color)Resources[ThemeResource.TextFillColorTertiary.ToString()]);
+            var background = converter.Convert((Color)Host.ApplicationResources[ThemeResource.ApplicationBackgroundColor.ToString()]);
+            var text = converter.Convert((Color)Host.ApplicationResources[ThemeResource.TextFillColorPrimary.ToString()]);
+            var title = converter.Convert((Color)Host.ApplicationResources[ThemeResource.TextFillColorSecondary.ToString()]);
+            var subTitle = converter.Convert((Color)Host.ApplicationResources[ThemeResource.TextFillColorTertiary.ToString()]);
+            var majorGrid = converter.Convert((Color)Host.ApplicationResources[ThemeResource.TextFillColorTertiary.ToString()]);
             var minorGrid = OxyColor.FromAColor(0x30, majorGrid);
-            var seriesStroke = converter.Convert((Color)Resources[ThemeResource.SystemAccentColorPrimary.ToString()]);
+            var seriesStroke = converter.Convert((Color)Host.ApplicationResources[ThemeResource.SystemAccentColorPrimary.ToString()]);
             var seriesFill = OxyColor.FromAColor(0x30, seriesStroke);
 
             PlotModel.Background = background;
             PlotModel.PlotAreaBackground = background;
-            PlotModel.PlotAreaBorderColor = border;
+            PlotModel.PlotAreaBorderColor = OxyColors.Undefined;
             PlotModel.TextColor = text;
             PlotModel.TitleColor = title;
             PlotModel.SubtitleColor = subTitle;
@@ -165,7 +208,7 @@ namespace DataUI.UI.ViewModels
 
         void BindTextTitels()
         {
-            if (Resources == default)
+            if (Host == default)
             {
                 return;
             }
@@ -174,8 +217,8 @@ namespace DataUI.UI.ViewModels
                                          .FirstOrDefault(a => a.Position == AxisPosition.Left);
             if (axisTemp != default)
             {
-                axisTemp.Title = (string)Resources["TemperatureLabel"];
-                axisTemp.Unit = (string)Resources["CelsiusUnitLabel"];
+                axisTemp.Title = (string)Host.ApplicationResources["TemperatureLabel"];
+                axisTemp.Unit = (string)Host.ApplicationResources["CelsiusUnitLabel"];
             }
         }
 
@@ -216,7 +259,7 @@ namespace DataUI.UI.ViewModels
 
         #region Constants
 
-        const int c_maxCount = 100;
+        const int c_maxCount = 120;
         const double c_maxTemp = 100;
 
         #endregion

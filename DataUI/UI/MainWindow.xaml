@@ -5,14 +5,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataUI.UI.ViewModels"
+        xmlns:localBindings="clr-namespace:DataUI.UI.Bindings"
+        xmlns:localConverters="clr-namespace:DataUI.UI.Converters"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="Data UI"
         Height="450"
         Width="800"
+        Icon="/Resources/AppIcon.ico"
         ExtendsContentIntoTitleBar="True"
-        Loaded="OnLoaded"
+        ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+        ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+        WindowBackdropType="Mica"
         Closing="OnClosing">
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
@@ -24,20 +30,29 @@
         </ResourceDictionary>
     </ui:FluentWindow.Resources>
     <Grid DataContext="{StaticResource ViewModel}">
+        <Grid.Resources>
+            <localBindings:BindingProxy x:Key="CornerRadius" Value="{DynamicResource ControlCornerRadius}"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Title="Data UI"
+        <ui:TitleBar Icon="{ui:SymbolIcon Symbol=BubbleMultiple20, FontSize=18}"
+                     Title="Data UI"
                      Grid.Row="0"/>
 
-        <oxy:PlotView Grid.Row="1"
-                      Background="{ui:ThemeResource ControlFillColorDefaultBrush}"
-                      Model="{Binding PlotModel}"
-                      DefaultTrackerTemplate="{x:Null}" >
-        </oxy:PlotView>
+        <Border Grid.Row="1"
+                Margin="7,0,7,0"
+                Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                BorderBrush="{ui:ThemeResource ControlStrokeColorDefaultBrush}"
+                BorderThickness="{DynamicResource TextControlBorderThemeThickness}"
+                CornerRadius="{Binding Source={StaticResource CornerRadius}, Path=Value}">
+            <oxy:PlotView Margin="{Binding Source={StaticResource CornerRadius}, Path=Value, Converter={localConverters:CornerRadiusToThicknessConverter}}"
+                          Model="{Binding PlotModel}"
+                          DefaultTrackerTemplate="{x:Null}"/>
+        </Border>
 
         <Grid Grid.Row="2" Margin="7">
             <Grid.ColumnDefinitions>

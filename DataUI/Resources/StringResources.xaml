@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <system:String x:Key="ErrorTitle">Error</system:String>
+    <system:String x:Key="ProviderFailedLabel">Can not initialize Data Provider</system:String>
     <system:String x:Key="TemperatureLabel">Temperature</system:String>
     <system:String x:Key="CelsiusUnitLabel">°C</system:String>
     <system:String x:Key="SourcePDHLabel">Performance Counters</system:String>
