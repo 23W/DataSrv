@@ -17,13 +17,20 @@ CCPUTempProvider::~CCPUTempProvider()
 
 CCPUTempProvider::TSampleEvent::TId CCPUTempProvider::Subscrive(TSampleEvent::THandler&& handler)
 {
-    std::lock_guard<TLock> lock(m_lock);
+    auto runThread = false;
+    auto id = TSampleEvent::TId{};
 
-    const auto wasEmpty = m_sampleEvent.IsEmpty();
-    const auto id = m_sampleEvent.Subscribe(std::move(handler));
-    const auto isEmpty = m_sampleEvent.IsEmpty();
+    {
+        std::lock_guard<TLock> lock(m_lock);
 
-    if (wasEmpty && !isEmpty)
+        const auto wasEmpty = m_sampleEvent.IsEmpty();
+        id = m_sampleEvent.Subscribe(std::move(handler));
+        const auto isEmpty = m_sampleEvent.IsEmpty();
+
+        runThread = wasEmpty && !isEmpty;
+    }
+
+    if (runThread)
     {
         RunThread();
     }
@@ -33,11 +40,16 @@ CCPUTempProvider::TSampleEvent::TId CCPUTempProvider::Subscrive(TSampleEvent::TH
 
 void CCPUTempProvider::Unsubscrive(const TSampleEvent::TId& id)
 {
-    std::lock_guard<TLock> lock(m_lock);
+    auto stopThread = false;
 
-    m_sampleEvent.Unsubscribe(id);
+    {
+        std::lock_guard<TLock> lock(m_lock);
 
-    if (m_sampleEvent.IsEmpty())
+        m_sampleEvent.Unsubscribe(id);
+        stopThread = m_sampleEvent.IsEmpty();
+    }
+
+    if (stopThread)
     {
         StopThread();
     }
@@ -47,7 +59,12 @@ void CCPUTempProvider::Unsubscrive(const TSampleEvent::TId& id)
 
 void CCPUTempProvider::StopThread()
 {
-    m_running = false;
+    {
+        std::lock_guard<TLock> lock(m_lock);
+        m_threadRunning = false;
+    }
+
+    m_threadWakeup.notify_one();
 
     if (m_thread.joinable())
     {

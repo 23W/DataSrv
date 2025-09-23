@@ -21,14 +21,15 @@ CCPUTempPDHProvider::~CCPUTempPDHProvider()
 
 void CCPUTempPDHProvider::RunThread()
 {
-    if (m_running)
+    if (m_threadRunning)
     {
         return;
     }
 
     m_thread = std::thread([this]()
     {
-        m_running = true;
+        std::unique_lock<TLock> lock(m_lock);
+        m_threadRunning = true;
 
         PDH_HQUERY hQuery = NULL;
         auto status = PdhOpenQuery(nullptr, 0, &hQuery);
@@ -42,10 +43,8 @@ void CCPUTempPDHProvider::RunThread()
             {
                 PdhCollectQueryData(hQuery);
 
-                while (m_running)
+                while (m_threadRunning)
                 {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
                     PdhCollectQueryData(hQuery);
 
                     PDH_FMT_COUNTERVALUE counterVal;
@@ -55,9 +54,12 @@ void CCPUTempPDHProvider::RunThread()
                         const auto kelvin = counterVal.doubleValue;
                         const auto celsius = kelvin - 273.15;
                      
+                        lock.unlock();
                         m_sampleEvent.Notify(static_cast<float>(celsius));
+                        lock.lock();
                     }
 
+                    m_threadWakeup.wait_for(lock, std::chrono::milliseconds(500), [this]() { return !m_threadRunning; });
                 }
             }
 

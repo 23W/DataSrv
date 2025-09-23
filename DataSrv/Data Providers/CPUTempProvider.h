@@ -1,8 +1,9 @@
 #pragma once
 
 #include <atomic>
-#include <thread>
+#include <condition_variable>
 #include <mutex>
+#include <thread>
 #include "..\Utilities\Event.h"
 
 class CCPUTempProvider
@@ -30,9 +31,10 @@ protected:
 
     // Members
 
-    mutable TLock m_lock;
-
     TSampleEvent m_sampleEvent;
-    std::atomic_bool m_running;
+
+    TLock m_lock;
+    std::condition_variable m_threadWakeup;
     std::thread m_thread;
+    bool m_threadRunning;
 };

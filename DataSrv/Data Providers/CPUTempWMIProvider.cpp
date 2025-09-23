@@ -21,14 +21,15 @@ CCPUTempWMIProvider::~CCPUTempWMIProvider()
 
 void CCPUTempWMIProvider::RunThread()
 {
-    if (m_running)
+    if (m_threadRunning)
     {
         return;
     }
 
     m_thread = std::thread([this]()
     {
-        m_running = true;
+        std::unique_lock<TLock> lock(m_lock);
+        m_threadRunning = true;
 
         ATL::CComPtr<IWbemLocator> spLoc;
         auto hr = spLoc.CoCreateInstance(CLSID_WbemLocator);
@@ -55,7 +56,7 @@ void CCPUTempWMIProvider::RunThread()
                                        EOAC_NONE);
                 if (SUCCEEDED(hr))
                 {
-                    while (m_running)
+                    while (m_threadRunning)
                     {
                         ATL::CComPtr<IEnumWbemClassObject> spEnum;
                         hr = spSvc->ExecQuery(ATL::CComBSTR(L"WQL"),
@@ -77,13 +78,16 @@ void CCPUTempWMIProvider::RunThread()
                                 {
                                     const auto raw = V_I4(&vData);
                                     const auto celsius = (raw / 10.0f) - 273.15f;
+
+                                    lock.unlock();
                                     m_sampleEvent.Notify(celsius);
+                                    lock.lock();
                                 }
                                 spObj.Release();
                             }
                         }
 
-                        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                        m_threadWakeup.wait_for(lock, std::chrono::milliseconds(500), [this]() { return !m_threadRunning; });
                     }
                 }
             }
