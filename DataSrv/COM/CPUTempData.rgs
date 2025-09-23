@@ -1,16 +1,3 @@
 HKCR
 {
-	NoRemove CLSID
-	{
-		ForceRemove {f44a631e-725d-4d6d-8e87-c181be87b694} = s 'CPUTempData class'
-		{
-			ForceRemove Programmable
-			LocalServer32 = s '%MODULE%'
-			{
-				val ServerExecutable = s '%MODULE_RAW%'
-			}
-			TypeLib = s '{91a7732c-78ba-49c0-a70b-72775c343a6f}'
-			Version = s '1.0'
-		}
-	}
 }
