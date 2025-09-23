@@ -61,6 +61,19 @@ interface ICPUTempData : IDispatch
 };
 
 [
+    object,
+    uuid(8d2a7171-ce2a-403c-9358-6bc065fb19be),
+    dual,
+    nonextensible,
+    oleautomation,
+    pointer_default(unique)
+]
+interface IGPUTempData : IDispatch
+{
+};
+
+
+[
     uuid(91a7732c-78ba-49c0-a70b-72775c343a6f),
     version(1.0),
 ]
@@ -104,6 +117,26 @@ library DataSrvLib
     {
         [default] interface ICPUTempData;
         [default, source] dispinterface _ICPUTempDataEvents;
+    };
+ 
+    [
+        uuid(3460de00-e39a-4f5b-9860-2cc52438b67b)
+    ]
+    dispinterface _IGPUTempDataEvents
+    {
+        properties:
+        methods:
+            [id(1), helpstring("Next Temp Sample")]
+            void OnNextSample([in]float value);
+    };
+
+    [
+        uuid(a5135fac-5594-465b-a6c2-48c5b8d34f21)
+    ]
+    coclass GPUTempData
+    {
+        [default] interface IGPUTempData;
+        [default, source] dispinterface _IGPUTempDataEvents;
     };
 };
 

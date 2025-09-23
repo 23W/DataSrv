@@ -66,6 +66,13 @@ typedef interface ICPUTempData ICPUTempData;
 #endif 	/* __ICPUTempData_FWD_DEFINED__ */
 
 
+#ifndef __IGPUTempData_FWD_DEFINED__
+#define __IGPUTempData_FWD_DEFINED__
+typedef interface IGPUTempData IGPUTempData;
+
+#endif 	/* __IGPUTempData_FWD_DEFINED__ */
+
+
 #ifndef ___IDataProviderEvents_FWD_DEFINED__
 #define ___IDataProviderEvents_FWD_DEFINED__
 typedef interface _IDataProviderEvents _IDataProviderEvents;
@@ -102,6 +109,25 @@ typedef struct CPUTempData CPUTempData;
 #endif /* __cplusplus */
 
 #endif 	/* __CPUTempData_FWD_DEFINED__ */
+
+
+#ifndef ___IGPUTempDataEvents_FWD_DEFINED__
+#define ___IGPUTempDataEvents_FWD_DEFINED__
+typedef interface _IGPUTempDataEvents _IGPUTempDataEvents;
+
+#endif 	/* ___IGPUTempDataEvents_FWD_DEFINED__ */
+
+
+#ifndef __GPUTempData_FWD_DEFINED__
+#define __GPUTempData_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class GPUTempData GPUTempData;
+#else
+typedef struct GPUTempData GPUTempData;
+#endif /* __cplusplus */
+
+#endif 	/* __GPUTempData_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -420,6 +446,133 @@ EXTERN_C const IID IID_ICPUTempData;
 #endif 	/* __ICPUTempData_INTERFACE_DEFINED__ */
 
 
+#ifndef __IGPUTempData_INTERFACE_DEFINED__
+#define __IGPUTempData_INTERFACE_DEFINED__
+
+/* interface IGPUTempData */
+/* [unique][oleautomation][nonextensible][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IGPUTempData;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("8d2a7171-ce2a-403c-9358-6bc065fb19be")
+    IGPUTempData : public IDispatch
+    {
+    public:
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IGPUTempDataVtbl
+    {
+        BEGIN_INTERFACE
+        
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IGPUTempData * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IGPUTempData * This);
+        
+        DECLSPEC_XFGVIRT(IUnknown, Release)
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IGPUTempData * This);
+        
+        DECLSPEC_XFGVIRT(IDispatch, GetTypeInfoCount)
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            IGPUTempData * This,
+            /* [out] */ UINT *pctinfo);
+        
+        DECLSPEC_XFGVIRT(IDispatch, GetTypeInfo)
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            IGPUTempData * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        DECLSPEC_XFGVIRT(IDispatch, GetIDsOfNames)
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            IGPUTempData * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        DECLSPEC_XFGVIRT(IDispatch, Invoke)
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            IGPUTempData * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        END_INTERFACE
+    } IGPUTempDataVtbl;
+
+    interface IGPUTempData
+    {
+        CONST_VTBL struct IGPUTempDataVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IGPUTempData_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IGPUTempData_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IGPUTempData_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IGPUTempData_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define IGPUTempData_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define IGPUTempData_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define IGPUTempData_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IGPUTempData_INTERFACE_DEFINED__ */
+
+
 
 #ifndef __DataSrvLib_LIBRARY_DEFINED__
 #define __DataSrvLib_LIBRARY_DEFINED__
@@ -688,6 +841,136 @@ EXTERN_C const CLSID CLSID_CPUTempData;
 
 class DECLSPEC_UUID("f44a631e-725d-4d6d-8e87-c181be87b694")
 CPUTempData;
+#endif
+
+#ifndef ___IGPUTempDataEvents_DISPINTERFACE_DEFINED__
+#define ___IGPUTempDataEvents_DISPINTERFACE_DEFINED__
+
+/* dispinterface _IGPUTempDataEvents */
+/* [uuid] */ 
+
+
+EXTERN_C const IID DIID__IGPUTempDataEvents;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("3460de00-e39a-4f5b-9860-2cc52438b67b")
+    _IGPUTempDataEvents : public IDispatch
+    {
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct _IGPUTempDataEventsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            _IGPUTempDataEvents * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            _IGPUTempDataEvents * This);
+        
+        DECLSPEC_XFGVIRT(IUnknown, Release)
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            _IGPUTempDataEvents * This);
+        
+        DECLSPEC_XFGVIRT(IDispatch, GetTypeInfoCount)
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            _IGPUTempDataEvents * This,
+            /* [out] */ UINT *pctinfo);
+        
+        DECLSPEC_XFGVIRT(IDispatch, GetTypeInfo)
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            _IGPUTempDataEvents * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        DECLSPEC_XFGVIRT(IDispatch, GetIDsOfNames)
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            _IGPUTempDataEvents * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        DECLSPEC_XFGVIRT(IDispatch, Invoke)
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            _IGPUTempDataEvents * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        END_INTERFACE
+    } _IGPUTempDataEventsVtbl;
+
+    interface _IGPUTempDataEvents
+    {
+        CONST_VTBL struct _IGPUTempDataEventsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define _IGPUTempDataEvents_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define _IGPUTempDataEvents_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define _IGPUTempDataEvents_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define _IGPUTempDataEvents_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define _IGPUTempDataEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define _IGPUTempDataEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define _IGPUTempDataEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+#endif 	/* ___IGPUTempDataEvents_DISPINTERFACE_DEFINED__ */
+
+
+EXTERN_C const CLSID CLSID_GPUTempData;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("a5135fac-5594-465b-a6c2-48c5b8d34f21")
+GPUTempData;
 #endif
 #endif /* __DataSrvLib_LIBRARY_DEFINED__ */
 

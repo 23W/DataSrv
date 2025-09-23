@@ -226,6 +226,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="COM\GPUTempData.h" />
+    <ClInclude Include="COM\_IGPUTempDataEvents_CP.h" />
     <ClInclude Include="Data Providers\CPUTempProvider.h" />
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h" />
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
@@ -247,6 +249,7 @@
   <ItemGroup>
     <ClCompile Include="COM\DataProvider.cpp" />
     <ClCompile Include="COM\CPUTempData.cpp" />
+    <ClCompile Include="COM\GPUTempData.cpp" />
     <ClCompile Include="Data Providers\CPUTempProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp" />
@@ -278,6 +281,7 @@
   <ItemGroup>
     <None Include="COM\DataProvider.rgs" />
     <None Include="COM\CPUTempData.rgs" />
+    <None Include="COM\GPUTempData.rgs" />
     <None Include="DataSrv.rgs" />
   </ItemGroup>
   <ItemGroup>
