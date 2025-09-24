@@ -37,4 +37,11 @@ protected:
     std::condition_variable m_threadWakeup;
     std::thread m_thread;
     bool m_threadRunning;
+
+    // Deleted methods
+
+    CCPUTempProvider(const CCPUTempProvider&) = delete;
+    CCPUTempProvider(CCPUTempProvider&&) = delete;
+    CCPUTempProvider& operator = (const CCPUTempProvider&) = delete;
+    CCPUTempProvider& operator = (CCPUTempProvider&&) = delete;
 };

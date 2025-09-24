@@ -85,6 +85,12 @@
     <ClInclude Include="COM\GPUTempData.h">
       <Filter>COM</Filter>
     </ClInclude>
+    <ClInclude Include="Data Providers\GPUTempProvider.h">
+      <Filter>Data Providers</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\TypeUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataSrv.cpp">
@@ -113,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="COM\GPUTempData.cpp">
       <Filter>COM</Filter>
+    </ClCompile>
+    <ClCompile Include="Data Providers\GPUTempProvider.cpp">
+      <Filter>Data Providers</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\StringUtilities.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -60,6 +60,15 @@ STDMETHODIMP CCPUTempData::put_Source(SourceType sourceType)
 
     ObjectLock lock(this);
 
+#ifdef _DEBUG
+    auto& gpuTemp = CDataSrvModule::GetModule().GetGPUTempProvide();
+    const auto count = gpuTemp.GetAdapterCount();
+    for (size_t i = 0; i < count; i++)
+    {
+        const auto dsc = gpuTemp.GetAdapter(i).GetDescription();
+    }
+#endif
+
     ChangeSourceType(sourceType);
     return S_OK;
 }

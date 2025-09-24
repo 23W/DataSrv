@@ -21,7 +21,13 @@ CCPUTempWMIProvider::~CCPUTempWMIProvider()
 
 void CCPUTempWMIProvider::RunThread()
 {
-    if (m_threadRunning)
+    auto isRuning = false;
+    {
+        std::lock_guard<TLock> lock(m_lock);
+        isRuning = m_threadRunning;
+    }
+
+    if (isRuning)
     {
         return;
     }

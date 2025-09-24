@@ -231,6 +231,7 @@
     <ClInclude Include="Data Providers\CPUTempProvider.h" />
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h" />
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
+    <ClInclude Include="Data Providers\GPUTempProvider.h" />
     <ClInclude Include="Utilities\ComUtilities.h" />
     <ClInclude Include="COM\DataProvider.h" />
     <ClInclude Include="COM\CPUTempData.h" />
@@ -245,6 +246,7 @@
     <ClInclude Include="Utilities\StringUtilities.h" />
     <ClInclude Include="COM\_IDataProviderEvents_CP.h" />
     <ClInclude Include="COM\_ICPUTempDataEvents_CP.h" />
+    <ClInclude Include="Utilities\TypeUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="COM\DataProvider.cpp" />
@@ -253,6 +255,7 @@
     <ClCompile Include="Data Providers\CPUTempProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp" />
+    <ClCompile Include="Data Providers\GPUTempProvider.cpp" />
     <ClCompile Include="DataSrv.cpp" />
     <ClCompile Include="COM\DataSrv_i.c">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -274,6 +277,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Utilities\StringUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DataSrv.rc" />
