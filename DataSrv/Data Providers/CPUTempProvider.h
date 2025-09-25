@@ -1,47 +1,14 @@
 #pragma once
 
-#include <atomic>
-#include <condition_variable>
-#include <mutex>
-#include <thread>
-#include "..\Utilities\Event.h"
+#include "TempProvider.h"
 
-class CCPUTempProvider
+class CCPUTempProvider : public CTempProvider
 {
 public:
-    using TSampleEvent = Event<float>;
-    using TLock = std::mutex;
+    using TBase = CTempProvider;
 
     // Construction
 
     CCPUTempProvider();
-    virtual ~CCPUTempProvider();
-
-    // Methods
-
-    TSampleEvent::TId Subscrive(TSampleEvent::THandler&& handler);
-    void Unsubscrive(const TSampleEvent::TId& id);
-
-protected:
-
-    // Helper Methods
-
-    virtual void RunThread() = 0;
-    virtual void StopThread();
-
-    // Members
-
-    TSampleEvent m_sampleEvent;
-
-    TLock m_lock;
-    std::condition_variable m_threadWakeup;
-    std::thread m_thread;
-    bool m_threadRunning;
-
-    // Deleted methods
-
-    CCPUTempProvider(const CCPUTempProvider&) = delete;
-    CCPUTempProvider(CCPUTempProvider&&) = delete;
-    CCPUTempProvider& operator = (const CCPUTempProvider&) = delete;
-    CCPUTempProvider& operator = (CCPUTempProvider&&) = delete;
+    ~CCPUTempProvider() override;
 };

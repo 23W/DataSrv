@@ -229,6 +229,7 @@
     <ClInclude Include="COM\GPUTempData.h" />
     <ClInclude Include="COM\_IGPUTempDataEvents_CP.h" />
     <ClInclude Include="Data Providers\CPUTempProvider.h" />
+    <ClInclude Include="Data Providers\TempProvider.h" />
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h" />
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
     <ClInclude Include="Data Providers\GPUTempProvider.h" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utilities\Event.h" />
+    <ClInclude Include="Utilities\EventWorkerThread.h" />
     <ClInclude Include="Utilities\RangeUtilities.h" />
     <ClInclude Include="Utilities\StringUtilities.h" />
     <ClInclude Include="COM\_IDataProviderEvents_CP.h" />
@@ -253,6 +255,7 @@
     <ClCompile Include="COM\CPUTempData.cpp" />
     <ClCompile Include="COM\GPUTempData.cpp" />
     <ClCompile Include="Data Providers\CPUTempProvider.cpp" />
+    <ClCompile Include="Data Providers\TempProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp" />
     <ClCompile Include="Data Providers\CPUTempWMIProvider.cpp" />
     <ClCompile Include="Data Providers\GPUTempProvider.cpp" />

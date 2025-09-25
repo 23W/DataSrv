@@ -21,13 +21,7 @@ CCPUTempWMIProvider::~CCPUTempWMIProvider()
 
 void CCPUTempWMIProvider::RunThread()
 {
-    auto isRuning = false;
-    {
-        std::lock_guard<TLock> lock(m_lock);
-        isRuning = m_threadRunning;
-    }
-
-    if (isRuning)
+    if (m_threadRunning)
     {
         return;
     }
@@ -86,7 +80,7 @@ void CCPUTempWMIProvider::RunThread()
                                     const auto celsius = (raw / 10.0f) - 273.15f;
 
                                     lock.unlock();
-                                    m_sampleEvent.Notify(celsius);
+                                    m_event.Notify(celsius);
                                     lock.lock();
                                 }
                                 spObj.Release();

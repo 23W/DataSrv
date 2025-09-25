@@ -21,13 +21,7 @@ CCPUTempPDHProvider::~CCPUTempPDHProvider()
 
 void CCPUTempPDHProvider::RunThread()
 {
-    auto isRuning = false;
-    {
-        std::lock_guard<TLock> lock(m_lock);
-        isRuning = m_threadRunning;
-    }
-
-    if (isRuning)
+    if (m_threadRunning)
     {
         return;
     }
@@ -61,7 +55,7 @@ void CCPUTempPDHProvider::RunThread()
                         const auto celsius = kelvin - 273.15;
                      
                         lock.unlock();
-                        m_sampleEvent.Notify(static_cast<float>(celsius));
+                        m_event.Notify(static_cast<float>(celsius));
                         lock.lock();
                     }
 

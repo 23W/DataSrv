@@ -6,7 +6,7 @@
 #include <mutex>
 #include <thread>
 
-#include "..\Utilities\Event.h"
+#include "TempProvider.h"
 
 // Forward declarations;
 struct IDXCoreAdapter;
@@ -17,16 +17,23 @@ public:
     using TSampleEvent = Event<float>;
     using TLock = std::mutex;
 
-    class CAdapter
+    class CAdapter : public CTempProvider
     {
     public:
         CAdapter(ATL::CComPtr<IDXCoreAdapter>&& spAdapter) noexcept;
         CAdapter(CAdapter&& adapter) noexcept;
-        ~CAdapter();
+        ~CAdapter() override;
 
         CAdapter& operator = (CAdapter&& adapter) noexcept;
 
         ATL::CStringW GetDescription();
+        size_t GetPhysicalCount();
+        float GetTemp(size_t physicalIndex);
+        float GetAvgTemp();
+
+    protected:
+    
+        void RunThread() override;
 
     private:
 

@@ -22,6 +22,8 @@ class ATL_NO_VTABLE CGPUTempData :
     public IDispatchImpl<IGPUTempData, &IID_IGPUTempData, &LIBID_DataSrvLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
+    using TDataProvider = CDataSrvModule::TGpuTemp::CAdapter;
+    using TEventHandlerId = TDataProvider::TId;
 
     // Construction
 

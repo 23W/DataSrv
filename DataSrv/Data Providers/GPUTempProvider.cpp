@@ -38,6 +38,8 @@ CGPUTempProvider::CAdapter& CGPUTempProvider::CAdapter::operator = (CAdapter&& a
 
 ATL::CStringW CGPUTempProvider::CAdapter::GetDescription()
 {
+    std::unique_lock<TLock> lock;
+
     auto res = ATL::CStringW{};
 
     if (m_spAdapter->IsPropertySupported(DXCoreAdapterProperty::DriverDescription))
@@ -53,6 +55,85 @@ ATL::CStringW CGPUTempProvider::CAdapter::GetDescription()
     }
 
     return res;
+}
+
+size_t CGPUTempProvider::CAdapter::GetPhysicalCount()
+{
+    std::unique_lock<TLock> lock;
+
+    auto res = size_t{ 1 };
+
+    if (m_spAdapter->IsPropertySupported(DXCoreAdapterProperty::PhysicalAdapterCount))
+    {
+        auto count = uint32_t{};
+        if (SUCCEEDED(m_spAdapter->GetProperty(DXCoreAdapterProperty::PhysicalAdapterCount, &count)))
+        {
+            res = count;
+        }
+    }
+
+    return res;
+}
+
+float CGPUTempProvider::CAdapter::GetTemp(size_t physicalIndex)
+{
+    std::unique_lock<TLock> lock;
+
+    auto res = 0.f;
+
+    auto index = static_cast<uint32_t>(physicalIndex);
+    if (FAILED(m_spAdapter->QueryState(DXCoreAdapterState::AdapterTemperatureCelsius, &index, &res)))
+    {
+        res = 0.f;
+    }
+
+    return res;
+}
+
+float CGPUTempProvider::CAdapter::GetAvgTemp()
+{
+    std::unique_lock<TLock> lock;
+
+    auto res = 0.f;
+    auto delim = 0;
+
+    for (auto count = GetPhysicalCount(), index = util::type_of(count, 0); index < count; index++)
+    {
+        const auto temp = GetTemp(index);
+        if (temp != 0)
+        {
+            res += temp;
+            delim++;
+        }
+    }
+
+    res /= delim;
+    return res;
+}
+
+void CGPUTempProvider::CAdapter::RunThread()
+{
+    if (m_threadRunning)
+    {
+        return;
+    }
+
+    m_thread = std::thread([this]()
+    {
+        std::unique_lock<TLock> lock;
+        m_threadRunning = true;
+
+        while (m_threadRunning)
+        {
+            const auto celsius = GetAvgTemp();
+
+            lock.unlock();
+            m_event.Notify(celsius);
+            lock.lock();
+
+            m_threadWakeup.wait_for(lock, std::chrono::milliseconds(500), [this]() { return !m_threadRunning; });
+        }
+    });
 }
 
 // CGPUTempProvider::CAdapter

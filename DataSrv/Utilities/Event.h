@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <mutex>
 #include <shared_mutex>
 #include <functional>
@@ -11,7 +12,7 @@ class Event
 {
 public:
     using THandler = std::function<void(TArgs...)>;
-    using TId = size_t;
+    using TId = std::size_t;
     using TMap = std::unordered_map<TId, THandler>;
 
     bool IsEmpty() const
@@ -60,7 +61,7 @@ public:
     using TBase = Event<TArgs...>;
     using THandler = std::function<void(TArgs...)>;
     using TLock = std::shared_mutex;
-    using TId = size_t;
+    using TId = TBase::TId;
     using TMap = std::unordered_map<TId, THandler>;
 
     bool IsEmpty() const

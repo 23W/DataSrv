@@ -25,7 +25,7 @@ class ATL_NO_VTABLE CCPUTempData :
 {
 public:
     using TDataProvider = CDataSrvModule::TCpuTemp;
-    using TEventId = TDataProvider::TSampleEvent::TId;
+    using TEventHandlerId = TDataProvider::TId;
 
     // Construction
 
@@ -66,11 +66,14 @@ private:
 
     void SubscribeDataEvent();
     void UnsubscribeDataEvent();
+
+    // Event handlers
+
     void OnNextSample(float sample);
 
     // Members
 
-    TEventId m_eventId;
+    TEventHandlerId m_eventId;
     SourceType m_sourceType;
 };
 

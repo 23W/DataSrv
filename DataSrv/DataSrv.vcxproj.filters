@@ -73,7 +73,7 @@
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
-    <ClInclude Include="Data Providers\CPUTempProvider.h">
+    <ClInclude Include="Data Providers\TempProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\RangeUtilities.h">
@@ -90,6 +90,12 @@
     </ClInclude>
     <ClInclude Include="Utilities\TypeUtilities.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\EventWorkerThread.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Providers\CPUTempProvider.h">
+      <Filter>Data Providers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +120,7 @@
     <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp">
       <Filter>Data Providers</Filter>
     </ClCompile>
-    <ClCompile Include="Data Providers\CPUTempProvider.cpp">
+    <ClCompile Include="Data Providers\TempProvider.cpp">
       <Filter>Data Providers</Filter>
     </ClCompile>
     <ClCompile Include="COM\GPUTempData.cpp">
@@ -125,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\StringUtilities.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Data Providers\CPUTempProvider.cpp">
+      <Filter>Data Providers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
