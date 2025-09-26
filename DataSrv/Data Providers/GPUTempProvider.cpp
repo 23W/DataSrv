@@ -97,7 +97,7 @@ float CGPUTempProvider::CAdapter::GetAvgTemp()
     auto res = 0.f;
     auto delim = 0;
 
-    for (auto count = GetPhysicalCount(), index = util::type_of(count, 0); index < count; index++)
+    for (auto count = GetPhysicalCount(), index = CTypeUtilities::type_of(count, 0); index < count; index++)
     {
         const auto temp = GetTemp(index);
         if (temp != 0)
@@ -185,7 +185,7 @@ void CGPUTempProvider::Init()
             const auto count = spAdapterList->GetAdapterCount();
             m_adapters.reserve(count);
 
-            for (auto index = util::type_of_cv(count, 0); index < count; index++)
+            for (auto index = CTypeUtilities::type_of_cv(count, 0); index < count; index++)
             {
                 ATL::CComPtr<IDXCoreAdapter> spAdapter;
                 if (SUCCEEDED(spAdapterList->GetAdapter(index, &spAdapter)))

@@ -1,6 +1,7 @@
 // CPUTempData.cpp : Implementation of CCPUTempData
 
 #include "pch.h"
+#include <array>
 
 #include "../DataSrv.h"
 #include "../Utilities/ComUtilities.h"
@@ -31,10 +32,7 @@ void CCPUTempData::FinalRelease()
 
 STDMETHODIMP CCPUTempData::InterfaceSupportsErrorInfo(REFIID riid)
 {
-    static const std::array<IID, 1> arr =
-    {
-        IID_ICPUTempData
-    };
+    static const auto arr = std::to_array({ IID_ICPUTempData });
 
     const auto res = CComUtilities::HasInterface(arr, riid);
     return res ? S_OK : S_FALSE;

@@ -7,14 +7,21 @@
 import "oaidl.idl";
 import "ocidl.idl";
 
-// ID values declarations
-// 0..99 - event ids
-// 100...1000 - property ids
-// 1000... - method ids
+// ID values declaration rules:
+//  - 0..99 - event ids
+//  - 100...1000 - property ids
+//  - 1000... - method ids
+// Exception for Collection interfaces (use DISPID_NEWENUM, DISPID_VALUE, DISPID_COUNT)
+
+#if !defined(DISPID_COUNT)
+    #define	DISPID_COUNT    ( 1 )
+#endif
 
 // Forward declaration
 interface IDataProvider;
 interface ICPUTempData;
+interface IGPUTempData;
+interface IGPUTempDataCollection;
 
 [helpstring("Data source types")]
 typedef enum SourceType
@@ -39,8 +46,11 @@ typedef enum SourceType
 ]
 interface IDataProvider : IDispatch
 {
-    [propget, id(100), helpstring("Get CPU Temp provides")]
+    [propget, id(100), helpstring("Returns CPU Temp provider")]
     HRESULT CpuTemp([out, retval]ICPUTempData** ppProvider);
+
+    [propget, id(101), helpstring("Returns GPU Temp provider")]
+    HRESULT GpuTemp([out, retval]IGPUTempDataCollection** ppCollectionProvider);
 };
 
 [
@@ -70,6 +80,31 @@ interface ICPUTempData : IDispatch
 ]
 interface IGPUTempData : IDispatch
 {
+    [propget, id(100), helpstring("Returns adapter index")]
+    HRESULT Index([out, retval]long* pIndex);
+
+    [propget, id(101), helpstring("Returns adapter name")]
+    HRESULT Name([out, retval]BSTR* ppName);
+};
+
+[
+    object,
+    uuid(706279aa-4dc8-4689-92fa-ec656b0c5f8f),
+    dual,
+    nonextensible,
+    oleautomation,
+    pointer_default(unique)
+]
+interface IGPUTempDataCollection : IDispatch
+{
+    [propget, id(DISPID_NEWENUM), restricted, hidden]
+    HRESULT _NewEnum([out, retval] IUnknown** ppUnk);
+
+    [propget, id(DISPID_VALUE)]
+    HRESULT Item([in] long index, [out, retval] IGPUTempData** ppGPUTempData);
+
+    [propget, id(DISPID_COUNT)]
+    HRESULT Count([out, retval] long* pCount);
 };
 
 
@@ -80,6 +115,9 @@ interface IGPUTempData : IDispatch
 library DataSrvLib
 {
     importlib("stdole2.tlb");
+
+    enum SourceType;
+
     [
         uuid(16cc38a3-da74-4c92-a05a-fb483f03a8d9)
     ]
@@ -138,7 +176,17 @@ library DataSrvLib
         [default] interface IGPUTempData;
         [default, source] dispinterface _IGPUTempDataEvents;
     };
+
+    [
+        uuid(9a29e514-0cc0-4872-a5d7-cce21b0fe153)
+    ]
+    coclass GPUTempDataCollection
+    {
+        [default] interface IGPUTempDataCollection;
+    };
 };
 
+/*/
 import "shobjidl.idl";
 import "shobjidl.idl";
+*/

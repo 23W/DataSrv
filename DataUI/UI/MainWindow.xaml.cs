@@ -49,8 +49,8 @@ namespace DataUI
         {
             var msgBox = new Wpf.Ui.Controls.MessageBox()
             {
-                Title = (string)ApplicationResources["Error"],
-                Content = (string)ApplicationResources["ProviderFailedLabel"],
+                Title = title ?? string.Empty,
+                Content = content ?? string.Empty,
             };
 
             return msgBox.ShowDialogAsync();

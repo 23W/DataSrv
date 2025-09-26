@@ -118,15 +118,22 @@ namespace DataUI.UI.ViewModels
                 CPUProvider.Source = SourceType.PDH;
                 CPUProvider.OnNextSample += OnNextSample;
 
+                var gpuProvider = dataProvider.GpuTemp;
+
+                foreach (var gpu in gpuProvider.Cast<GPUTempData>())
+                {
+                    Debug.WriteLine($"{gpu.Index} - {gpu.Name}");
+                }
+
                 NotifyPropertyChanged(nameof(Sources),
                                       nameof(Source));
             }
-            catch
+            catch(Exception ex)
             {
                 if (Host != default)
                 {
-                    await Host.ShowMessageBoxAsync((string)Host.ApplicationResources["Error"],
-                                                   (string)Host.ApplicationResources["ProviderFailedLabel"]);
+                    await Host.ShowMessageBoxAsync((string)Host.ApplicationResources["ErrorTitle"],
+                                                   $"{(string)Host.ApplicationResources["ProviderFailedLabel"]}\n{ex.Message}");
                 }
             }
         }

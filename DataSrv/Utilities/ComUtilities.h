@@ -3,6 +3,7 @@
 #include <atlbase.h>
 #include <atlcom.h>
 #include <array>
+#include <functional>
 #include <utility>
 
 class CComUtilities
@@ -10,13 +11,22 @@ class CComUtilities
 public:
 
     template<typename TComClass, typename TInterface>
-    static HRESULT CreateCOM(TInterface** ppInterface)
+    static HRESULT CreateCOM(TInterface** ppInterface, std::function<HRESULT(TComClass*)> initializer = nullptr)
     {
         ATL::CComPtr<ATL::CComObject<TComClass>> spObject;
         auto hr = ATL::CComObject<TComClass>::CreateInstance(&spObject);
         if (FAILED(hr))
         {
             return hr;
+        }
+
+        if (!!initializer)
+        {
+            hr = initializer(spObject);
+            if (FAILED(hr))
+            {
+                return hr;
+            }
         }
 
         hr = spObject.QueryInterface(ppInterface);
@@ -66,7 +76,7 @@ public:
     static bool HasInterface(const IID* pData, size_t count, REFIID iid)
     {
         auto res = false;
-        for (auto it = pData, last = pData + count; it < last && !res; ++it)
+        for (auto it = pData, last = std::next(pData, count); it < last && !res; ++it)
         {
             res = InlineIsEqualGUID(*it, iid);
         }
@@ -78,5 +88,11 @@ public:
     static HRESULT ErrorInvalidPointer(TComClass* pObject, IID iid)
     {
         return pObject->Error(_T("Invalid pointer"), iid, E_POINTER);
+    }
+
+    template<typename TComClass>
+    static HRESULT ErrorInvalidIndex(TComClass* pObject, IID iid)
+    {
+        return pObject->Error(_T("Invalid collection index"), iid, E_INVALIDARG);
     }
 };

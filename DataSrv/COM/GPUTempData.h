@@ -22,17 +22,18 @@ class ATL_NO_VTABLE CGPUTempData :
     public IDispatchImpl<IGPUTempData, &IID_IGPUTempData, &LIBID_DataSrvLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-    using TDataProvider = CDataSrvModule::TGpuTemp::CAdapter;
-    using TEventHandlerId = TDataProvider::TId;
+    using TDataProvider = CDataSrvModule::TGpuTemp;
+    using TAdapterProvider = TDataProvider::CAdapter;
+    using TEventHandlerId = TAdapterProvider::TId;
 
     // Construction
 
     CGPUTempData();
 
     HRESULT FinalConstruct();
-
     void FinalRelease();
 
+    HRESULT Init(size_t adapterIndex);
 
     DECLARE_REGISTRY_RESOURCEID(IDR_GPUTEMPDATA)
     DECLARE_NOT_AGGREGATABLE(CGPUTempData)
@@ -53,7 +54,28 @@ public:
 
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
 
+    STDMETHOD(get_Index)(long* pIndex);
+    STDMETHOD(get_Name)(BSTR* ppName);
+
 private:
+
+    // Helper Methods
+
+    bool IsValid();
+
+    TDataProvider& GetProvider();
+
+    void SubscribeDataEvent();
+    void UnsubscribeDataEvent();
+
+    // Event handlers
+
+    void OnNextSample(float sample);
+
+    // Members
+
+    TEventHandlerId m_eventId;
+    size_t m_adapterIndex;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(GPUTempData), CGPUTempData)

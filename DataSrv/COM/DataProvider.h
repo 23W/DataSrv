@@ -20,12 +20,17 @@ class ATL_NO_VTABLE CDataProvider :
     public IDispatchImpl<IDataProvider, &IID_IDataProvider, &LIBID_DataSrvLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-    CDataProvider()
-    {
-    }
+
+    // Construction
+
+    CDataProvider();
+
+    HRESULT FinalConstruct();
+    void FinalRelease();
 
     DECLARE_REGISTRY_RESOURCEID(IDR_DATAPROVIDER)
     DECLARE_NOT_AGGREGATABLE(CDataProvider)
+    DECLARE_PROTECT_FINAL_CONSTRUCT()
 
     BEGIN_COM_MAP(CDataProvider)
         COM_INTERFACE_ENTRY(IDataProvider)
@@ -38,22 +43,12 @@ public:
         CONNECTION_POINT_ENTRY(__uuidof(_IDataProviderEvents))
     END_CONNECTION_POINT_MAP()
 
-    // ISupportsErrorInfo
+    // Methods
+
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
 
-    STDMETHOD(get_CpuTemp)(ICPUTempData** ppData);
-
-
-    DECLARE_PROTECT_FINAL_CONSTRUCT()
-
-    HRESULT FinalConstruct()
-    {
-        return S_OK;
-    }
-
-    void FinalRelease()
-    {
-    }
+    STDMETHOD(get_CpuTemp)(ICPUTempData** ppProvider);
+    STDMETHOD(get_GpuTemp)(IGPUTempDataCollection** ppCollectionProvider);
 
 public:
 };

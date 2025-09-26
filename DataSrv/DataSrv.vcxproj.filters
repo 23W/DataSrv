@@ -97,6 +97,12 @@
     <ClInclude Include="Data Providers\CPUTempProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
+    <ClInclude Include="COM\GPUTempDataCollection.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\ComCollectionImpl.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataSrv.cpp">
@@ -135,6 +141,9 @@
     <ClCompile Include="Data Providers\CPUTempProvider.cpp">
       <Filter>Data Providers</Filter>
     </ClCompile>
+    <ClCompile Include="COM\GPUTempDataCollection.cpp">
+      <Filter>COM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DataSrv.rc">
@@ -152,6 +161,9 @@
       <Filter>COM</Filter>
     </None>
     <None Include="COM\GPUTempData.rgs">
+      <Filter>COM</Filter>
+    </None>
+    <None Include="COM\GPUTempDataCollection.rgs">
       <Filter>COM</Filter>
     </None>
   </ItemGroup>
