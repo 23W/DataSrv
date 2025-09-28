@@ -11,7 +11,7 @@ class CComUtilities
 public:
 
     template<typename TComClass, typename TInterface>
-    static HRESULT CreateCOM(TInterface** ppInterface, std::function<HRESULT(TComClass*)> initializer = nullptr)
+    static HRESULT CreateCom(TInterface** ppInterface, std::function<HRESULT(TComClass*)> initializer = nullptr)
     {
         ATL::CComPtr<ATL::CComObject<TComClass>> spObject;
         auto hr = ATL::CComObject<TComClass>::CreateInstance(&spObject);

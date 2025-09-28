@@ -88,6 +88,8 @@ protected:
     //
     //        while (m_threadRunning)
     //        {
+    //            CoInitializeEx(NULL, COINIT_MULTITHREADED); // if you need COM
+    // 
     //            // collect data
     //
     //            lock.unlock();

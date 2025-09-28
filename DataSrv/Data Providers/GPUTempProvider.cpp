@@ -3,6 +3,7 @@
 #include <dxcore.h>
 #include <dxcore_interface.h>
 
+#include "../DataSrv.h"
 #include "../Utilities/StringUtilities.h"
 #include "../Utilities/TypeUtilities.h"
 #include "GPUTempProvider.h"
@@ -120,7 +121,9 @@ void CGPUTempProvider::CAdapter::RunThread()
 
     m_thread = std::thread([this]()
     {
-        std::unique_lock<TLock> lock;
+        CDataSrvModule::InitializeCom();
+
+        std::unique_lock<TLock> lock(m_lock);
         m_threadRunning = true;
 
         while (m_threadRunning)

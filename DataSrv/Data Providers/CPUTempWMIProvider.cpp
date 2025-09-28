@@ -2,6 +2,7 @@
 #include <wbemidl.h>
 #include <comdef.h>
 
+#include "../DataSrv.h"
 #include "CPUTempWMIProvider.h"
 
 #pragma comment(lib, "wbemuuid.lib")
@@ -28,6 +29,8 @@ void CCPUTempWMIProvider::RunThread()
 
     m_thread = std::thread([this]()
     {
+        CDataSrvModule::InitializeCom();
+
         std::unique_lock<TLock> lock(m_lock);
         m_threadRunning = true;
 

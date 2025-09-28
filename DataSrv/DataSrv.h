@@ -21,6 +21,12 @@ public:
     DECLARE_LIBID(LIBID_DataSrvLib)
     DECLARE_REGISTRY_APPID_RESOURCEID(IDR_DATASRV, "{91a7732c-78ba-49c0-a70b-72775c343a6f}")
 
+    // Construction
+
+    CDataSrvModule();
+
+    // Methods
+
     static CDataSrvModule& GetModule();
 
     TCpuTemp& GetCPUTempProvide(SourceType sourceType);
@@ -34,6 +40,9 @@ public:
     HRESULT Run(int nShowCmd) noexcept;
 
 private:
+
+    // Members
+
     TCpuWMITemp m_cpuTempWMIProvider;
     TCpuPDHTemp m_cpuTempPDHProvider;
     TGpuTemp m_gpuTempProvider;

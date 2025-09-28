@@ -120,11 +120,12 @@ namespace DataUI.UI.ViewModels
 
                 var gpuProvider = dataProvider.GpuTemp;
 
+#if DEBUG
                 foreach (var gpu in gpuProvider.Cast<GPUTempData>())
                 {
                     Debug.WriteLine($"{gpu.Index} - {gpu.Name}");
                 }
-
+#endif
                 NotifyPropertyChanged(nameof(Sources),
                                       nameof(Source));
             }

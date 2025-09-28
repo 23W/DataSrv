@@ -66,7 +66,7 @@ STDMETHODIMP CGPUTempDataCollection::get_Item(long index, IGPUTempData** ppGPUTe
     }
 
     const auto adapterIndex = CTypeUtilities::type_of(adapterCount, index - 1);
-    const auto hr = CComUtilities::CreateCOM<CGPUTempData>(ppGPUTempData, [&](auto pGpuTempData)
+    const auto hr = CComUtilities::CreateCom<CGPUTempData>(ppGPUTempData, [&](auto pGpuTempData)
     {
         return pGpuTempData->Init(adapterIndex);
     });

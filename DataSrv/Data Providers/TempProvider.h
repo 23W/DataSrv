@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Utilities\EventWorkerThread.h"
+#include "../Utilities/EventWorkerThread.h"
 
 class CTempProvider : public EventWorkerThread<float>
 {

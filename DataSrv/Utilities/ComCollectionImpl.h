@@ -9,8 +9,8 @@ class CComValueCollectionImpl
 {
 public:
     using TValue = T;
-    using TVariantEnum = ATL::CComEnum<IEnumVARIANT, &IID_IEnumVARIANT, VARIANT, ATL::_Copy<VARIANT>, ThreadModel>;
-    using TComVariantEnum = ATL::CComObject<TVariantEnum>;
+    using TVariantCopy = ATL::_Copy<VARIANT>;
+    using TVariantEnum = ATL::CComEnum<IEnumVARIANT, &IID_IEnumVARIANT, VARIANT, TVariantCopy, ThreadModel>;
 
     CComValueCollectionImpl() {}
     virtual ~CComValueCollectionImpl() {}
@@ -21,7 +21,7 @@ public:
         auto hr = get_Count(&count);
         if (SUCCEEDED(hr))
         {
-            auto pElements = new ATL::CComVariant[count];
+            auto pElements = CreateElementsArray(count);
 
             for (auto index = CTypeUtilities::type_of(count, 0); index < count; index++)
             {
@@ -29,25 +29,25 @@ public:
                 hr = get_Item(index + 1, &value);
                 if (SUCCEEDED(hr))
                 {
-                    pElements[index] = ATL::CComVariant(value);
+                    ATL::CComVariant(value).Detach(&pElements[index]);
                 }
                 else
                 {
-                    delete[] pElements;
+                    DeleteElementsArray(pElements, count);
                     break;
                 }
             }
 
             if (SUCCEEDED(hr))
             {
-                hr = CComUtilities::CreateCOM<TVariantEnum>(ppUnk, [&](TVariantEnum* pEnumObject)
+                hr = CComUtilities::CreateCom<TVariantEnum>(ppUnk, [&](TVariantEnum* pEnumObject)
                                                             {
                                                                 auto hr = pEnumObject->Init(pElements,
                                                                                             std::next(pElements, count),
                                                                                             pThis, ATL::AtlFlagTakeOwnership);
                                                                 if (FAILED(hr))
                                                                 {
-                                                                    delete[] pElements;
+                                                                    DeleteElementsArray(pElements, count);
                                                                 }
 
                                                                 return hr;
@@ -60,31 +60,52 @@ public:
 
     STDMETHOD(get_Item)(long index, TValue* pValue) = 0;
     STDMETHOD(get_Count)(long* pVal) = 0;
+
+protected:
+
+    VARIANT* CreateElementsArray(size_t count)
+    {
+        auto pElements = new VARIANT[count];
+        for (auto index = CTypeUtilities::type_of(count, 0); index < count; index++)
+        {
+            TVariantCopy::init(&pElements[index]);
+        }
+
+        return pElements;
+    }
+
+    void DeleteElementsArray(VARIANT* pElements, size_t count)
+    {
+        for (auto index = CTypeUtilities::type_of(count, 0); index < count; index++)
+        {
+            TVariantCopy::destroy(&pElements[index]);
+        }
+
+        delete[] pElements;
+    }
 };
 
 
 template<typename T, typename ThreadModel>
-class CComUnkCollectionImpl
+class CComUnkCollectionImpl : public CComValueCollectionImpl<T*, ThreadModel>
 {
 public:
+    using TBase = CComValueCollectionImpl<T*, ThreadModel>;
     using TInterface = T;
-    using TVariantEnum = ATL::CComEnum<IEnumVARIANT, &IID_IEnumVARIANT, VARIANT, ATL::_Copy<VARIANT>, ThreadModel>;
-    using TComVariantEnum = ATL::CComObject<TVariantEnum>;
+    using TVariantEnum = TBase::TVariantEnum;
 
     CComUnkCollectionImpl()
     {
         static_assert(std::is_base_of<IUnknown, TInterface>::value, "TInterface must inherit IUnknown");
     }
 
-    virtual ~CComUnkCollectionImpl() {}
-
-    STDMETHOD(get__NewEnum)(IUnknown** ppUnk, IUnknown* pThis = nullptr)
+    STDMETHOD(get__NewEnum)(IUnknown** ppUnk, IUnknown* pThis = nullptr) override
     {
         auto count = 0L;
         auto hr = get_Count(&count);
         if (SUCCEEDED(hr))
         {
-            auto pElements = new ATL::CComVariant[count];
+            auto pElements = TBase::CreateElementsArray(count);
 
             for (auto index = CTypeUtilities::type_of(count, 0); index < count; index++)
             {
@@ -92,25 +113,25 @@ public:
                 hr = get_Item(index + 1, &spItemInterface);
                 if (SUCCEEDED(hr))
                 {
-                    pElements[index] = ATL::CComVariant(spItemInterface);
+                    ATL::CComVariant(spItemInterface).Detach(&pElements[index]);
                 }
                 else
                 {
-                    delete[] pElements;
+                    TBase::DeleteElementsArray(pElements, count);
                     break;
                 }
             }
 
             if (SUCCEEDED(hr))
             {
-                hr = CComUtilities::CreateCOM<TVariantEnum>(ppUnk, [&](TVariantEnum* pEnumObject)
+                hr = CComUtilities::CreateCom<TVariantEnum>(ppUnk, [&](TVariantEnum* pEnumObject)
                                                            {
                                                                auto hr = pEnumObject->Init(pElements,
                                                                                            std::next(pElements, count),
                                                                                            pThis, ATL::AtlFlagTakeOwnership);
                                                                if (FAILED(hr))
                                                                {
-                                                                   delete[] pElements;
+                                                                   TBase::DeleteElementsArray(pElements, count);
                                                                }
                                                                return hr;
                                                            });
@@ -120,8 +141,8 @@ public:
         return hr;
     }
 
-    STDMETHOD(get_Item)(long index, TInterface** ppValue) = 0;
-    STDMETHOD(get_Count)(long* pVal) = 0;
+    STDMETHOD(get_Item)(long index, TInterface** ppItemInterface) override = 0;
+    STDMETHOD(get_Count)(long* pVal) override = 0;
 };
 
 template<typename T, typename ThreadModel>

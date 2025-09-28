@@ -45,7 +45,7 @@ STDMETHODIMP CDataProvider::get_CpuTemp(ICPUTempData** ppProvider)
 
     ObjectLock lock(this);
 
-    const auto hr = CComUtilities::CreateCOM<CCPUTempData>(ppProvider);
+    const auto hr = CComUtilities::CreateCom<CCPUTempData>(ppProvider);
     return hr;
 }
 
@@ -58,6 +58,6 @@ STDMETHODIMP CDataProvider::get_GpuTemp(IGPUTempDataCollection** ppCollectionPro
 
     ObjectLock lock(this);
 
-    const auto hr = CComUtilities::CreateCOM<CGPUTempDataCollection>(ppCollectionProvider);
+    const auto hr = CComUtilities::CreateCom<CGPUTempDataCollection>(ppCollectionProvider);
     return hr;
 }

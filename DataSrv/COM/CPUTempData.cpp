@@ -83,7 +83,13 @@ void CCPUTempData::ChangeSourceType(SourceType sourceType)
 
 void CCPUTempData::SubscribeDataEvent()
 {
-    m_eventId = GetProvider().Subscrive([this](float value) { OnNextSample(value); });
+    if (m_eventId == 0)
+    {
+        m_eventId = GetProvider().Subscrive([this](auto value)
+                                            {
+                                                OnNextSample(value);
+                                            });
+    }
 }
 
 void CCPUTempData::UnsubscribeDataEvent()

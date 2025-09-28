@@ -34,6 +34,11 @@ HRESULT CGPUTempData::Init(size_t adapterIndex)
     m_adapterIndex = adapterIndex;
 
     const auto hr = IsValid() ? S_OK : CComUtilities::ErrorInvalidIndex(this, IID_IGPUTempData);
+    if (SUCCEEDED(hr))
+    {
+        SubscribeDataEvent();
+    }
+
     return hr;
 }
 
@@ -102,8 +107,14 @@ CGPUTempData::TDataProvider& CGPUTempData::GetProvider()
 
 void CGPUTempData::SubscribeDataEvent()
 {
-    auto& adapter = GetProvider().GetAdapter(m_adapterIndex);
-    m_eventId = adapter.Subscrive([this](auto sample) { OnNextSample(sample); });
+    if (m_eventId == 0)
+    {
+        auto& adapter = GetProvider().GetAdapter(m_adapterIndex);
+        m_eventId = adapter.Subscrive([this](auto sample)
+                                      {
+                                          OnNextSample(sample);
+                                      });
+    }
 }
 
 void CGPUTempData::UnsubscribeDataEvent()
