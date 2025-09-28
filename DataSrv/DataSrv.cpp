@@ -4,6 +4,14 @@
 
 CDataSrvModule _AtlModule;
 
+// Construction
+
+CDataSrvModule::CDataSrvModule()
+{
+}
+
+// Methods
+
 CDataSrvModule& CDataSrvModule::GetModule()
 {
     return _AtlModule;
@@ -70,10 +78,11 @@ HRESULT CDataSrvModule::Run(int nShowCmd) noexcept
     return hr;
 }
 
-//
+// Module start point
+
 extern "C" int WINAPI _tWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/,
                                 LPTSTR /*lpCmdLine*/, int nShowCmd)
 {
-    return _AtlModule.WinMain(nShowCmd);
+    const auto res = _AtlModule.WinMain(nShowCmd);
+    return res;
 }
-

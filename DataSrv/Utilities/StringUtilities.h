@@ -10,11 +10,14 @@ class CStringUtilities
 public:
 
     template<typename ...TArgs>
-    static CString Format(LPCTSTR formatStr, TArgs&&... args)
+    static ATL::CString Format(LPCTSTR formatStr, TArgs&&... args)
     {
-        CString res;
+        ATL::CString res;
         res.Format(formatStr, std::forward<TArgs>(args)...);
 
         return res;
     }
+
+    static ATL::CStringW Utf8ToCString(const std::string& utf8Stream);
+    static ATL::CStringW Utf8ToCString(const char* pUtf8Stream, size_t streamLength);
 };

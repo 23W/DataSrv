@@ -73,10 +73,34 @@
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
-    <ClInclude Include="Data Providers\CPUTempProvider.h">
+    <ClInclude Include="Data Providers\TempProvider.h">
       <Filter>Data Providers</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\RangeUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\_IGPUTempDataEvents_CP.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\GPUTempData.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Providers\GPUTempProvider.h">
+      <Filter>Data Providers</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\TypeUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\EventWorkerThread.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Providers\CPUTempProvider.h">
+      <Filter>Data Providers</Filter>
+    </ClInclude>
+    <ClInclude Include="COM\GPUTempDataCollection.h">
+      <Filter>COM</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\ComCollectionImpl.h">
       <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,8 +126,23 @@
     <ClCompile Include="Data Providers\CPUTempPDHProvider.cpp">
       <Filter>Data Providers</Filter>
     </ClCompile>
+    <ClCompile Include="Data Providers\TempProvider.cpp">
+      <Filter>Data Providers</Filter>
+    </ClCompile>
+    <ClCompile Include="COM\GPUTempData.cpp">
+      <Filter>COM</Filter>
+    </ClCompile>
+    <ClCompile Include="Data Providers\GPUTempProvider.cpp">
+      <Filter>Data Providers</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\StringUtilities.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Data Providers\CPUTempProvider.cpp">
       <Filter>Data Providers</Filter>
+    </ClCompile>
+    <ClCompile Include="COM\GPUTempDataCollection.cpp">
+      <Filter>COM</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +158,12 @@
       <Filter>COM</Filter>
     </None>
     <None Include="COM\CPUTempData.rgs">
+      <Filter>COM</Filter>
+    </None>
+    <None Include="COM\GPUTempData.rgs">
+      <Filter>COM</Filter>
+    </None>
+    <None Include="COM\GPUTempDataCollection.rgs">
       <Filter>COM</Filter>
     </None>
   </ItemGroup>

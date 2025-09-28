@@ -1,6 +1,7 @@
 // CPUTempData.cpp : Implementation of CCPUTempData
 
 #include "pch.h"
+#include <array>
 
 #include "../DataSrv.h"
 #include "../Utilities/ComUtilities.h"
@@ -31,10 +32,7 @@ void CCPUTempData::FinalRelease()
 
 STDMETHODIMP CCPUTempData::InterfaceSupportsErrorInfo(REFIID riid)
 {
-    static const std::array<IID, 1> arr =
-    {
-        IID_ICPUTempData
-    };
+    static const auto arr = std::to_array({ IID_ICPUTempData });
 
     const auto res = CComUtilities::HasInterface(arr, riid);
     return res ? S_OK : S_FALSE;
@@ -85,7 +83,13 @@ void CCPUTempData::ChangeSourceType(SourceType sourceType)
 
 void CCPUTempData::SubscribeDataEvent()
 {
-    m_eventId = GetProvider().Subscrive([this](float value) { OnNextSample(value); });
+    if (m_eventId == 0)
+    {
+        m_eventId = GetProvider().Subscrive([this](auto value)
+                                            {
+                                                OnNextSample(value);
+                                            });
+    }
 }
 
 void CCPUTempData::UnsubscribeDataEvent()
@@ -96,6 +100,8 @@ void CCPUTempData::UnsubscribeDataEvent()
         m_eventId = 0;
     }
 }
+
+// Event handlers
 
 void CCPUTempData::OnNextSample(float value)
 {

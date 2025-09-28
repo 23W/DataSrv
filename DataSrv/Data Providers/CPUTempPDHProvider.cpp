@@ -3,6 +3,7 @@
 #include <pdhmsg.h>
 #include <comdef.h>
 
+#include "../DataSrv.h"
 #include "CPUTempPDHProvider.h"
 
 #pragma comment(lib, "pdh.lib")
@@ -28,6 +29,8 @@ void CCPUTempPDHProvider::RunThread()
 
     m_thread = std::thread([this]()
     {
+        CDataSrvModule::InitializeCom();
+
         std::unique_lock<TLock> lock(m_lock);
         m_threadRunning = true;
 
@@ -55,7 +58,7 @@ void CCPUTempPDHProvider::RunThread()
                         const auto celsius = kelvin - 273.15;
                      
                         lock.unlock();
-                        m_sampleEvent.Notify(static_cast<float>(celsius));
+                        m_event.Notify(static_cast<float>(celsius));
                         lock.lock();
                     }
 

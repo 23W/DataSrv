@@ -10,7 +10,7 @@ public:
     // Construction
 
     CCPUTempWMIProvider();
-    ~CCPUTempWMIProvider();
+    ~CCPUTempWMIProvider() override;
 
 protected:
 

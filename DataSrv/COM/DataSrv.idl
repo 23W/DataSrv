@@ -7,14 +7,21 @@
 import "oaidl.idl";
 import "ocidl.idl";
 
-// ID values declarations
-// 0..99 - event ids
-// 100...1000 - property ids
-// 1000... - method ids
+// ID values declaration rules:
+//  - 0..99 - event ids
+//  - 100...1000 - property ids
+//  - 1000... - method ids
+// Exception for Collection interfaces (use DISPID_NEWENUM, DISPID_VALUE, DISPID_COUNT)
+
+#if !defined(DISPID_COUNT)
+    #define	DISPID_COUNT    ( 1 )
+#endif
 
 // Forward declaration
 interface IDataProvider;
 interface ICPUTempData;
+interface IGPUTempData;
+interface IGPUTempDataCollection;
 
 [helpstring("Data source types")]
 typedef enum SourceType
@@ -39,8 +46,11 @@ typedef enum SourceType
 ]
 interface IDataProvider : IDispatch
 {
-    [propget, id(100), helpstring("Get CPU Temp provides")]
+    [propget, id(100), helpstring("Returns CPU Temp provider")]
     HRESULT CpuTemp([out, retval]ICPUTempData** ppProvider);
+
+    [propget, id(101), helpstring("Returns GPU Temp provider")]
+    HRESULT GpuTemp([out, retval]IGPUTempDataCollection** ppCollectionProvider);
 };
 
 [
@@ -61,12 +71,53 @@ interface ICPUTempData : IDispatch
 };
 
 [
+    object,
+    uuid(8d2a7171-ce2a-403c-9358-6bc065fb19be),
+    dual,
+    nonextensible,
+    oleautomation,
+    pointer_default(unique)
+]
+interface IGPUTempData : IDispatch
+{
+    [propget, id(100), helpstring("Returns adapter index")]
+    HRESULT Index([out, retval]long* pIndex);
+
+    [propget, id(101), helpstring("Returns adapter name")]
+    HRESULT Name([out, retval]BSTR* ppName);
+};
+
+[
+    object,
+    uuid(706279aa-4dc8-4689-92fa-ec656b0c5f8f),
+    dual,
+    nonextensible,
+    oleautomation,
+    pointer_default(unique)
+]
+interface IGPUTempDataCollection : IDispatch
+{
+    [propget, id(DISPID_NEWENUM), restricted, hidden]
+    HRESULT _NewEnum([out, retval] IUnknown** ppUnk);
+
+    [propget, id(DISPID_VALUE)]
+    HRESULT Item([in] long index, [out, retval] IGPUTempData** ppGPUTempData);
+
+    [propget, id(DISPID_COUNT)]
+    HRESULT Count([out, retval] long* pCount);
+};
+
+
+[
     uuid(91a7732c-78ba-49c0-a70b-72775c343a6f),
     version(1.0),
 ]
 library DataSrvLib
 {
     importlib("stdole2.tlb");
+
+    enum SourceType;
+
     [
         uuid(16cc38a3-da74-4c92-a05a-fb483f03a8d9)
     ]
@@ -105,7 +156,37 @@ library DataSrvLib
         [default] interface ICPUTempData;
         [default, source] dispinterface _ICPUTempDataEvents;
     };
+ 
+    [
+        uuid(3460de00-e39a-4f5b-9860-2cc52438b67b)
+    ]
+    dispinterface _IGPUTempDataEvents
+    {
+        properties:
+        methods:
+            [id(1), helpstring("Next Temp Sample")]
+            void OnNextSample([in]float value);
+    };
+
+    [
+        uuid(a5135fac-5594-465b-a6c2-48c5b8d34f21)
+    ]
+    coclass GPUTempData
+    {
+        [default] interface IGPUTempData;
+        [default, source] dispinterface _IGPUTempDataEvents;
+    };
+
+    [
+        uuid(9a29e514-0cc0-4872-a5d7-cce21b0fe153)
+    ]
+    coclass GPUTempDataCollection
+    {
+        [default] interface IGPUTempDataCollection;
+    };
 };
 
+/*/
 import "shobjidl.idl";
 import "shobjidl.idl";
+*/
