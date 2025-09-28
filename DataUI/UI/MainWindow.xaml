@@ -49,9 +49,9 @@
                 BorderBrush="{ui:ThemeResource ControlStrokeColorDefaultBrush}"
                 BorderThickness="{DynamicResource TextControlBorderThemeThickness}"
                 CornerRadius="{Binding Source={StaticResource CornerRadius}, Path=Value}">
-            <oxy:PlotView Margin="{Binding Source={StaticResource CornerRadius}, Path=Value, Converter={localConverters:CornerRadiusToThicknessConverter}}"
-                          Model="{Binding PlotModel}"
-                          DefaultTrackerTemplate="{x:Null}"/>
+            <Grid x:Name="GraphGrid"
+                  Margin="{Binding Source={StaticResource CornerRadius}, Path=Value, Converter={localConverters:CornerRadiusToThicknessConverter}}">
+            </Grid>
         </Border>
 
         <Grid Grid.Row="2" Margin="7">
@@ -62,10 +62,10 @@
             </Grid.ColumnDefinitions>
             <ComboBox Grid.Column="0"
                       MinWidth="300"
-                      ItemsSource="{Binding Sources}"
+                      ItemsSource="{Binding CPU.Sources}"
                       DisplayMemberPath="Name"
                       SelectedValuePath="Source"
-                      SelectedValue="{Binding Source}"/>
+                      SelectedValue="{Binding CPU.Source}"/>
             <ui:Button Grid.Column="2"
                        Appearance="Primary"
                        Content="Close"
