@@ -32,6 +32,9 @@
     <Filter Include="Libraries\xxHash">
       <UniqueIdentifier>{7f965db8-0665-4a59-93e2-3555592998f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\nlohmann">
+      <UniqueIdentifier>{10def527-6762-4f34-a36a-3d3154216a7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -117,6 +120,12 @@
     </ClInclude>
     <ClInclude Include="Libraries\xxHash\xxhash.h">
       <Filter>Libraries\xxHash</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\nlohmann\single_include\nlohmann\json.hpp">
+      <Filter>Libraries\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\nlohmann\single_include\nlohmann\json_fwd.hpp">
+      <Filter>Libraries\nlohmann</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

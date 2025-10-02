@@ -2,3 +2,7 @@
 	path = DataSrv/Libraries/xxHash
 	url = https://github.com/Cyan4973/xxHash.git
 	branch = dev
+[submodule "DataSrv/Libraries/nlohmann"]
+	path = DataSrv/Libraries/nlohmann
+	url = https://github.com/nlohmann/json.git
+	branch = develop
