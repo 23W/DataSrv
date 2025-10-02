@@ -26,6 +26,12 @@
     <Filter Include="Data Providers">
       <UniqueIdentifier>{faf45af0-3dfc-4d39-b819-3a0245d96555}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{2c5920df-7549-43b8-a06a-c647e7f81111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\xxHash">
+      <UniqueIdentifier>{7f965db8-0665-4a59-93e2-3555592998f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -103,6 +109,15 @@
     <ClInclude Include="Utilities\ComCollectionImpl.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\xxHash\xxh_x86dispatch.h">
+      <Filter>Libraries\xxHash</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\xxHash\xxh3.h">
+      <Filter>Libraries\xxHash</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\xxHash\xxhash.h">
+      <Filter>Libraries\xxHash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataSrv.cpp">
@@ -143,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="COM\GPUTempDataCollection.cpp">
       <Filter>COM</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\xxHash\xxh_x86dispatch.c">
+      <Filter>Libraries\xxHash</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\xxHash\xxhash.c">
+      <Filter>Libraries\xxHash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
