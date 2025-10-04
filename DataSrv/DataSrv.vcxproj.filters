@@ -35,6 +35,15 @@
     <Filter Include="Libraries\nlohmann">
       <UniqueIdentifier>{10def527-6762-4f34-a36a-3d3154216a7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Storage">
+      <UniqueIdentifier>{8a174b18-8a67-40db-9ad8-44dea5bd6a27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Storage\Data Model">
+      <UniqueIdentifier>{6e1d3793-704b-40cc-84a7-b4a9d40f5888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Storage\Serializer">
+      <UniqueIdentifier>{4ff6df56-5c46-4a12-a70b-c8888bbdf713}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -126,6 +135,15 @@
     </ClInclude>
     <ClInclude Include="Libraries\nlohmann\single_include\nlohmann\json_fwd.hpp">
       <Filter>Libraries\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="Storage\Data Model\Node.h">
+      <Filter>Storage\Data Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Storage\Data Model\Id.h">
+      <Filter>Storage\Data Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\HashUtilities.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

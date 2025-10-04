@@ -249,6 +249,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Storage\Data Model\Id.h" />
+    <ClInclude Include="Storage\Data Model\Node.h" />
     <ClInclude Include="Utilities\ComCollectionImpl.h" />
     <ClInclude Include="Utilities\ComUtilities.h" />
     <ClInclude Include="COM\DataProvider.h" />
@@ -261,6 +263,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utilities\Event.h" />
     <ClInclude Include="Utilities\EventWorkerThread.h" />
+    <ClInclude Include="Utilities\HashUtilities.h" />
     <ClInclude Include="Utilities\RangeUtilities.h" />
     <ClInclude Include="Utilities\StringUtilities.h" />
     <ClInclude Include="COM\_IDataProviderEvents_CP.h" />

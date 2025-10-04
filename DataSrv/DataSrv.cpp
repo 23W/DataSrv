@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "DataSrv.h"
 #include "Utilities/StringUtilities.h"
+#include "Storage/Data Model/Node.h"
 
 CDataSrvModule _AtlModule;
 
