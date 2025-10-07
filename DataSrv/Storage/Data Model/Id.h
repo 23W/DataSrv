@@ -1,42 +1,50 @@
 #pragma once
 
 #include <array>
+#include <bit>
 #include <cstdint>
 #include <guiddef.h>
 #include "../../Utilities/HashUtilities.h"
 
 struct Id
 {
-    std::array<uint8_t, 16> Data = { 0 };
+    using DataType = std::array<uint8_t, 16>;
 
-    Id() = default;
-    Id(const Id&) = default;
-    Id(Id&&) = default;
-    explicit Id(const GUID& guid)
+    // Properties
+
+    DataType Data = { 0 };
+
+    // Construction
+
+    constexpr Id() = default;
+    constexpr Id(const Id&) = default;
+    constexpr Id(Id&&) = default;
+    constexpr explicit Id(const GUID& guid)
     {
         operator = (guid);
     }
 
-    Id& operator = (const Id&) = default;
-    Id& operator = (Id&&) = default;
+    // Operators
 
-    Id& operator = (const GUID& guid) noexcept
+    constexpr Id& operator = (const Id&) = default;
+    constexpr Id& operator = (Id&&) = default;
+
+    constexpr Id& operator = (const GUID& guid) noexcept
     {
-        static_assert(sizeof(Id) == sizeof(GUID), "Id and GUID must have same size");
-        std::memcpy(Data.data(), &guid, sizeof(GUID));
+        static_assert(std::is_trivially_copyable_v<Id> &&
+                      std::is_trivially_copyable_v<GUID> &&
+                      sizeof(Id) == sizeof(GUID), "Id and GUID must have same size");
+        Data = std::bit_cast<DataType>(guid);
 
         return *this;
     }
 
-    explicit operator GUID() const noexcept
+    constexpr explicit operator GUID() const noexcept
     {
-        auto guid = GUID{};
-        std::memcpy(&guid, Data.data(), sizeof(GUID));
-
-        return guid;
+        return std::bit_cast<GUID>(Data);
     }
 
-    auto operator<=>(const Id&) const = default;
+    constexpr auto operator<=>(const Id&) const = default;
 
     static Id MakeNew() noexcept
     {

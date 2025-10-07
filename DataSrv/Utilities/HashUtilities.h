@@ -1,8 +1,8 @@
 #pragma once
 
 #include <array>
+#include <bit>
 #include <cstdint>
-#include <cstring>
 #include <type_traits>
 #include <xxHash/xxhash.h>
 
@@ -36,6 +36,9 @@ struct SHashType
     constexpr SHashType& operator = (const value_type& src) noexcept { Value = src; return *this; }
     constexpr SHashType& operator = (value_type&& src) noexcept { Value = std::move(src); return *this; }
 
+    constexpr bool operator==(const SHashType&) const = default;
+    constexpr bool operator!=(const SHashType&) const = default;
+
     // Conversion from\to compatible trivial types
 
     template<typename T>
@@ -51,8 +54,18 @@ struct SHashType
                       std::is_standard_layout_v<T> &&
                       sizeof(T) == sizeof(value_type), "Types must have equal size and be trivially copyable");
 
-        std::memcpy(&Value, &src, sizeof(value_type));
+        Value = std::bit_cast<value_type>(src);
         return *this;
+    }
+
+    template<typename T>
+    constexpr T As() const noexcept
+    {
+        static_assert(std::is_trivially_copyable_v<T> &&
+                      std::is_standard_layout_v<T> &&
+                      sizeof(T) == sizeof(value_type), "Types must have equal size and be trivially copyable");
+
+        return std::bit_cast<T>(Value);
     }
 };
 
@@ -60,8 +73,9 @@ template<size_t hashSize>
 class CHashUtilities
 {
 public:
+    using HashType = SHashType<hashSize>;
 
-    static SHashType<hashSize> Hash(const void* pData, size_t count)
+    static HashType Hash(const void* pData, size_t count, HashType seed = HashType{})
     {
         static_assert(hashSize == 4 ||
                       hashSize == 8 ||
@@ -70,22 +84,28 @@ public:
 };
 
 template<>
-SHashType<4> CHashUtilities<4>::Hash(const void* pData, size_t count)
+CHashUtilities<4>::HashType CHashUtilities<4>::Hash(const void* pData, size_t count, HashType seed)
 {
-    const auto hash = XXH32(pData, count, 0);
+    const auto hash = XXH32(pData, count, static_cast<XXH32_hash_t>(seed));
     return hash;
 }
 
 template<>
-SHashType<8> CHashUtilities<8>::Hash(const void* pData, size_t count)
+CHashUtilities<8>::HashType CHashUtilities<8>::Hash(const void* pData, size_t count, HashType seed)
 {
-    const auto hash = XXH3_64bits_withSeed(pData, count, 0);
+    const auto hash = XXH3_64bits_withSeed(pData, count, static_cast<XXH64_hash_t>(seed));
     return hash;
 }
 
 template<>
-SHashType<16> CHashUtilities<16>::Hash(const void* pData, size_t count)
+CHashUtilities<16>::HashType CHashUtilities<16>::Hash(const void* pData, size_t count, HashType seed)
 {
-    const auto hash = XXH3_128bits_withSeed(pData, count, 0);
+    auto xxSeed = XXH64_hash_t{};
+    if (seed != HashType{})
+    {
+        xxSeed = XXH3_64bits(seed.Value.data(), sizeof(seed.Value));
+    }
+
+    const auto hash = XXH3_128bits_withSeed(pData, count, xxSeed);
     return SHashType<16>(hash);
 }
