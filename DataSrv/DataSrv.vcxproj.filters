@@ -44,6 +44,9 @@
     <Filter Include="Storage\Serializer">
       <UniqueIdentifier>{4ff6df56-5c46-4a12-a70b-c8888bbdf713}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\Crypto">
+      <UniqueIdentifier>{a856becd-e342-44fc-8e90-b83ec915b299}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -145,6 +148,15 @@
     <ClInclude Include="Utilities\HashUtilities.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Crypto\Cryptor.h">
+      <Filter>Utilities\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Crypto\AES256Cryptor.h">
+      <Filter>Utilities\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Crypto\status_error.h">
+      <Filter>Utilities\Crypto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataSrv.cpp">
@@ -191,6 +203,12 @@
     </ClCompile>
     <ClCompile Include="Libraries\xxHash\xxhash.c">
       <Filter>Libraries\xxHash</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Crypto\Cryptor.cpp">
+      <Filter>Utilities\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Crypto\AES256Cryptor.cpp">
+      <Filter>Utilities\Crypto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
