@@ -6,3 +6,6 @@
 	path = DataSrv/Libraries/nlohmann
 	url = https://github.com/nlohmann/json.git
 	branch = develop
+[submodule "DataSrv/Libraries/base64"]
+	path = DataSrv/Libraries/base64
+	url = https://github.com/tobiaslocker/base64.git

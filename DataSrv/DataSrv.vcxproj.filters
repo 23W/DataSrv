@@ -47,6 +47,9 @@
     <Filter Include="Utilities\Crypto">
       <UniqueIdentifier>{a856becd-e342-44fc-8e90-b83ec915b299}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\base64">
+      <UniqueIdentifier>{735ab874-a5cf-4c8a-aa6e-6a188ff52515}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -157,6 +160,9 @@
     <ClInclude Include="Utilities\Crypto\status_error.h">
       <Filter>Utilities\Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\base64\include\base64.hpp">
+      <Filter>Libraries\base64</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataSrv.cpp">
@@ -209,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\Crypto\AES256Cryptor.cpp">
       <Filter>Utilities\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Storage\Data Model\Id.cpp">
+      <Filter>Storage\Data Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

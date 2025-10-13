@@ -1,8 +1,10 @@
 #pragma once
 
 #include <atlstr.h>
+#include <cstdint>
 #include <string>
 #include <format>
+#include <vector>
 #include <utility>
 
 class CStringUtilities

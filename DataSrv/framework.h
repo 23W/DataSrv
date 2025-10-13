@@ -6,8 +6,6 @@
 
 #include "targetver.h"
 
-#include <stdexcept>
-
 #define _ATL_FREE_THREADED
 
 #define _ATL_NO_AUTOMATIC_NAMESPACE

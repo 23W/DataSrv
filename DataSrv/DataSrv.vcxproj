@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>XXH_INLINE_ALL;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\base64\include;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>XXH_INLINE_ALL;WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\base64\include;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
@@ -160,7 +160,7 @@
       <PreprocessorDefinitions>XXH_INLINE_ALL;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\base64\include;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
@@ -197,7 +197,7 @@
       <PreprocessorDefinitions>XXH_INLINE_ALL;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Libraries;$(ProjectDir)Libraries\base64\include;$(ProjectDir)Libraries\nlohmann\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Midl>
@@ -234,6 +234,7 @@
     <ClInclude Include="Data Providers\CPUTempPDHProvider.h" />
     <ClInclude Include="Data Providers\CPUTempWMIProvider.h" />
     <ClInclude Include="Data Providers\GPUTempProvider.h" />
+    <ClInclude Include="Libraries\base64\include\base64.hpp" />
     <ClInclude Include="Libraries\nlohmann\single_include\nlohmann\json.hpp" />
     <ClInclude Include="Libraries\nlohmann\single_include\nlohmann\json_fwd.hpp" />
     <ClInclude Include="Libraries\xxHash\xxh3.h">
@@ -316,6 +317,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Storage\Data Model\Id.cpp" />
     <ClCompile Include="Utilities\Crypto\AES256Cryptor.cpp" />
     <ClCompile Include="Utilities\Crypto\Cryptor.cpp" />
     <ClCompile Include="Utilities\StringUtilities.cpp" />

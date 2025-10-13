@@ -3,6 +3,7 @@
 #include <array>
 #include <bit>
 #include <cstdint>
+#include <string>
 #include <guiddef.h>
 #include "../../Utilities/HashUtilities.h"
 
@@ -19,10 +20,8 @@ struct Id
     constexpr Id() = default;
     constexpr Id(const Id&) = default;
     constexpr Id(Id&&) = default;
-    constexpr explicit Id(const GUID& guid)
-    {
-        operator = (guid);
-    }
+    constexpr explicit Id(const GUID& guid) { operator = (guid); }
+    explicit Id(const std::string& str) { operator = (str); }
 
     // Operators
 
@@ -39,19 +38,18 @@ struct Id
         return *this;
     }
 
+    Id& operator = (const std::string& guid);
+
     constexpr explicit operator GUID() const noexcept
     {
         return std::bit_cast<GUID>(Data);
     }
 
+    explicit operator std::string() const;
+
     constexpr auto operator<=>(const Id&) const = default;
 
-    static Id MakeNew() noexcept
-    {
-        auto guid = GUID_NULL;
-        CoCreateGuid(&guid);
-        return Id(guid);
-    }
+    static Id MakeNew() noexcept;
 };
 
 

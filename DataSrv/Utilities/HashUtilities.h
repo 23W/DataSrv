@@ -80,32 +80,29 @@ public:
         static_assert(hashSize == 4 ||
                       hashSize == 8 ||
                       hashSize == 16, "unsupported hash size");
+
+        if constexpr (hashSize == 4)
+        {
+            return XXH32(pData, count, static_cast<XXH32_hash_t>(seed));
+        }
+        else if constexpr (hashSize == 8)
+        {
+            return XXH3_64bits_withSeed(pData, count, static_cast<XXH64_hash_t>(seed));
+        }
+        else if constexpr (hashSize == 16)
+        {
+            auto xxSeed = XXH64_hash_t{};
+            if (seed != HashType{})
+            {
+                xxSeed = XXH3_64bits(seed.Value.data(), seed.Value.size());
+            }
+
+            const auto hash = XXH3_128bits_withSeed(pData, count, xxSeed);
+            return HashType(hash);
+        }
+        else
+        {
+            // implement other sizes
+        }
     }
 };
-
-template<>
-CHashUtilities<4>::HashType CHashUtilities<4>::Hash(const void* pData, size_t count, HashType seed)
-{
-    const auto hash = XXH32(pData, count, static_cast<XXH32_hash_t>(seed));
-    return hash;
-}
-
-template<>
-CHashUtilities<8>::HashType CHashUtilities<8>::Hash(const void* pData, size_t count, HashType seed)
-{
-    const auto hash = XXH3_64bits_withSeed(pData, count, static_cast<XXH64_hash_t>(seed));
-    return hash;
-}
-
-template<>
-CHashUtilities<16>::HashType CHashUtilities<16>::Hash(const void* pData, size_t count, HashType seed)
-{
-    auto xxSeed = XXH64_hash_t{};
-    if (seed != HashType{})
-    {
-        xxSeed = XXH3_64bits(seed.Value.data(), sizeof(seed.Value));
-    }
-
-    const auto hash = XXH3_128bits_withSeed(pData, count, xxSeed);
-    return SHashType<16>(hash);
-}

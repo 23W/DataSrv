@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="..\DataSrv\Utilities\StringUtilities.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DataSrv\Utilities\Crypto\AES256Cryptor.cpp">
+      <Filter>Utilities\Cryptor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DataSrv\Utilities\Crypto\Cryptor.cpp">
+      <Filter>Utilities\Cryptor</Filter>
+    </ClCompile>
+    <ClCompile Include="CryptorTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="IdTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DataSrv\Storage\Data Model\Id.cpp">
+      <Filter>Storage\Data Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="..\DataSrv\Utilities\HashUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Utilities\StringUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Utilities\TypeUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Utilities\Crypto\AES256Cryptor.h">
+      <Filter>Utilities\Cryptor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Utilities\Crypto\Cryptor.h">
+      <Filter>Utilities\Cryptor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Utilities\Crypto\status_error.h">
+      <Filter>Utilities\Cryptor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Storage\Data Model\Id.h">
+      <Filter>Storage\Data Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DataSrv\Storage\Data Model\Node.h">
+      <Filter>Storage\Data Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{67eeb61e-7625-49d2-b7bf-ca0409baafc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\base64">
+      <UniqueIdentifier>{e48edd1c-ee4b-4470-b4fc-b0b019e2335b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\nlohmann">
+      <UniqueIdentifier>{83bcc2e2-8c8e-4884-bc0a-ed83314d218a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\xxHash">
+      <UniqueIdentifier>{bea443e4-3961-40d7-ab23-0bc0fd90b9bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{99c9b8ce-1510-4ae5-8372-451fd7db953b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Cryptor">
+      <UniqueIdentifier>{689ef099-737b-45f6-a1a4-cfdadbdded0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{a6f9dc0a-c0c0-45f3-b49c-440854ca4903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Storage">
+      <UniqueIdentifier>{7157ff8d-20cf-4b5c-a9ec-60f35c0463fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Storage\Data Model">
+      <UniqueIdentifier>{df4801c0-0cba-4804-a157-72374bc0b563}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
