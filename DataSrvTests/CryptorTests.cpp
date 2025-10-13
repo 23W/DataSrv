@@ -10,14 +10,14 @@ namespace DataSrv::Cryptor
 
         CCryptorFactorty factory;
         auto spCoder = CCryptorFactorty::TCryptorPtr{};
-        EXPECT_NO_THROW(spCoder = factory.Create(CCryptorFactorty::CodecType::AES256CBC));
+        ASSERT_NO_THROW(spCoder = factory.Create(CCryptorFactorty::CodecType::AES256CBC));
 
         auto passwordHash1 = std::vector<std::uint8_t>();
         auto passwordHash2 = std::vector<std::uint8_t>();
-        EXPECT_NO_THROW(spCoder->BuildPasswordHash(password1, nullptr, passwordHash1));
-        EXPECT_NO_THROW(spCoder->BuildPasswordHash(password2, nullptr, passwordHash2));
+        ASSERT_NO_THROW(spCoder->BuildPasswordHash(password1, nullptr, passwordHash1));
+        ASSERT_NO_THROW(spCoder->BuildPasswordHash(password2, nullptr, passwordHash2));
 
-        EXPECT_EQ(passwordHash1, passwordHash2);
+        ASSERT_EQ(passwordHash1, passwordHash2);
     }
 
     TEST(Cryptor, AES256CBC_Encode_Decode)
@@ -35,7 +35,7 @@ namespace DataSrv::Cryptor
 
         CCryptorFactorty factory;
         auto spCoder = CCryptorFactorty::TCryptorPtr{};
-        EXPECT_NO_THROW(spCoder = factory.Create(CCryptorFactorty::CodecType::AES256CBC));
+        ASSERT_NO_THROW(spCoder = factory.Create(CCryptorFactorty::CodecType::AES256CBC));
 
         auto passwordHash = std::vector<std::uint8_t>();
         auto encoded = std::vector<std::uint8_t>();
@@ -51,15 +51,15 @@ namespace DataSrv::Cryptor
 
             if (chunkIndex == 0)
             {
-                EXPECT_NO_THROW(spStatus = spCoder->StartEncrypt(passwordHash, chunk, encoded));
+                ASSERT_NO_THROW(spStatus = spCoder->StartEncrypt(passwordHash, chunk, encoded));
             }
             else if (chunkIndex == chunkCount - 1)
             {
-                EXPECT_NO_THROW(spCoder->EndEncrypt(std::move(spStatus), chunk, encoded));
+                ASSERT_NO_THROW(spCoder->EndEncrypt(std::move(spStatus), chunk, encoded));
             }
             else
             {
-                EXPECT_NO_THROW(spCoder->NextEncrypt(spStatus, chunk, encoded));
+                ASSERT_NO_THROW(spCoder->NextEncrypt(spStatus, chunk, encoded));
             }
         }
 
@@ -71,18 +71,18 @@ namespace DataSrv::Cryptor
 
             if (chunkIndex == 0)
             {
-                EXPECT_NO_THROW(spStatus = spCoder->StartDecrypt(passwordHash, chunk, decoded));
+                ASSERT_NO_THROW(spStatus = spCoder->StartDecrypt(passwordHash, chunk, decoded));
             }
             else if (chunkIndex == chunkCount - 1)
             {
-                EXPECT_NO_THROW(spCoder->EndDecrypt(std::move(spStatus), chunk, decoded));
+                ASSERT_NO_THROW(spCoder->EndDecrypt(std::move(spStatus), chunk, decoded));
             }
             else
             {
-                EXPECT_NO_THROW(spCoder->NextDecrypt(spStatus, chunk, decoded));
+                ASSERT_NO_THROW(spCoder->NextDecrypt(spStatus, chunk, decoded));
             }
         }
 
-        EXPECT_EQ(decoded, ethalon);
+        ASSERT_EQ(decoded, ethalon);
     }
 }

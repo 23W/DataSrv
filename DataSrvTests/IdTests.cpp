@@ -8,7 +8,7 @@ namespace DataSrv::Storage
         const auto id1 = Id::MakeNew();
         const auto id2 = Id::MakeNew();
 
-        EXPECT_NE(id1, id2);
+        ASSERT_NE(id1, id2);
     }
 
     TEST(Id, Copyable)
@@ -17,8 +17,8 @@ namespace DataSrv::Storage
         const auto id2 = id1;
         const auto id3 = Id{ id1 };
 
-        EXPECT_EQ(id1, id2);
-        EXPECT_EQ(id2, id3);
+        ASSERT_EQ(id1, id2);
+        ASSERT_EQ(id2, id3);
     }
 
     TEST(Id, GUID)
@@ -31,8 +31,8 @@ namespace DataSrv::Storage
 
         auto guid2 = id2.operator GUID();
 
-        EXPECT_EQ(id1, id2);
-        EXPECT_EQ(guid1, guid2);
+        ASSERT_EQ(id1, id2);
+        ASSERT_EQ(guid1, guid2);
     }
 
     TEST(Id, string)
@@ -42,7 +42,7 @@ namespace DataSrv::Storage
         const auto sId2 = id1.operator std::string();
         const auto id2 = Id{ sId2 };
 
-        EXPECT_EQ(sId1, sId2);
-        EXPECT_EQ(id1, id2);
+        ASSERT_EQ(sId1, sId2);
+        ASSERT_EQ(id1, id2);
     }
 }
